@@ -1,11 +1,48 @@
 {
   "name": "f1bot",
-  "version": "1.0.0",
-  "main": "main.js",
+  "version": "0.0.0",
   "license": "GPL-3.0-only",
-  "type": "module",
+  "author": "Raí B. Toffoletto <rai@toffoletto.me>",
+  "description": "Discord BOT for the channel \"Paddock Club\" from Julianne Cerasoli",
+  "homepage": "https://toffoletto.me",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/raibtoffoletto/f1bot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/raibtoffoletto/f1bot/issues"
+  },
   "private": true,
+  "type": "module",
+  "main": "./dist/main.js",
   "dependencies": {
-    "discord.js": "14.25.1"
+    "discord.js": "14.25.1",
+    "dotenv": "17.2.3",
+    "peng-orm": "1.0.1"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "3.3.3",
+    "@eslint/js": "9.39.1",
+    "@types/node": "24.10.1",
+    "@typescript-eslint/eslint-plugin": "8.48.1",
+    "@typescript-eslint/parser": "8.48.1",
+    "eslint": "9.39.1",
+    "eslint-config-prettier": "10.1.8",
+    "eslint-plugin-prettier": "5.5.4",
+    "globals": "16.5.0",
+    "prettier": "3.7.4",
+    "tsx": "4.21.0",
+    "typescript": "5.9.3",
+    "vite": "7.2.6"
+  },
+  "scripts": {
+    "build": "yarn lint && yarn format && tsc && vite build",
+    "dev": "tsx src/main.js",
+    "format": "prettier -w .",
+    "lint": "tsc --noEmit && eslint ./src",
+    "start": "node --trace-deprecation ./dist/main.js"
+  },
+  "engines": {
+    "node": ">=22.0.0 <25.0.0"
   }
 }
