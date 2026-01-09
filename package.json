@@ -37,7 +37,7 @@
   },
   "scripts": {
     "build": "yarn lint && yarn format && tsc && vite build",
-    "dev": "tsx src/main.js",
+    "dev": "tsx watch --include './src/**/*' src/main.js",
     "format": "prettier -w .",
     "lint": "tsc --noEmit && eslint ./src",
     "start": "node --trace-deprecation ./dist/main.js"

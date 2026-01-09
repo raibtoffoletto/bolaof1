@@ -1,12 +1,26 @@
 import { REST, Routes, SlashCommandBuilder } from 'discord.js';
-import { COMMAND_DESCRIPTIONS, COMMANDS } from './constants';
+import {
+  AllCommands,
+  COMMAND_DESCRIPTIONS,
+  COMMAND_OPTIONS,
+  COMMANDS,
+} from './constants';
 
-const commands = Object.keys(COMMANDS).map((cmd) =>
-  new SlashCommandBuilder()
+const commands = AllCommands.map((cmd) => {
+  const builder = new SlashCommandBuilder()
     .setName(COMMANDS[cmd])
-    .setDescription(COMMAND_DESCRIPTIONS[COMMANDS[cmd]])
-    .toJSON(),
-);
+    .setDescription(COMMAND_DESCRIPTIONS[COMMANDS[cmd]]);
+
+  if (!!COMMAND_OPTIONS[COMMANDS[cmd]]) {
+    for (const [option, description] of COMMAND_OPTIONS[COMMANDS[cmd]]) {
+      builder.addStringOption((op) =>
+        op.setName(option).setDescription(description).setRequired(true),
+      );
+    }
+  }
+
+  return builder.toJSON();
+});
 
 const rest = new REST({ version: '10' }).setToken(`${process.env.DISCORD_BOT_TOKEN}`);
 

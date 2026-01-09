@@ -1,5 +1,4 @@
 import type { Client } from 'discord.js';
-import { list } from '../data/guilds';
 import registerCommands from '../lib/registerCommands';
 
 export default async function onClientReady(client: Client) {
@@ -8,9 +7,9 @@ export default async function onClientReady(client: Client) {
 
     console.log(`[onClientReady]: Updating slash commands for all guilds...`);
 
-    const guilds = list();
+    const guilds = client.guilds.cache;
 
-    for (const guild of guilds) {
+    for (const [_, guild] of guilds) {
       await registerCommands(guild.id);
     }
 

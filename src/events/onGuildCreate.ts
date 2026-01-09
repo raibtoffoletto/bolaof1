@@ -1,5 +1,4 @@
 import type { Guild } from 'discord.js';
-import { create } from '../data/guilds';
 import registerCommands from '../lib/registerCommands';
 
 export default async function onGuildCreate(guild: Guild) {
@@ -9,8 +8,6 @@ export default async function onGuildCreate(guild: Guild) {
     if (!guild.members.me) {
       throw new Error('Bot member not found in guild');
     }
-
-    create(guild.id, guild.name);
 
     await registerCommands(guild.id);
   } catch (error: any) {
