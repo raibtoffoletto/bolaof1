@@ -25,3 +25,27 @@ export const COMMAND_OPTIONS: Record<string, string[][]> = {
     ['corrida', 'Número da corrida, use `/corridas` para ver a lista completa'],
   ],
 };
+
+export const FLAGS: Record<string, string> = {
+  AUS: '🇦🇺',
+  CHN: '🇨🇳',
+  JPN: '🇯🇵',
+  BHR: '🇧🇭',
+  SAU: '🇸🇦',
+  USA: '🇺🇸',
+  CAN: '🇨🇦',
+  MON: '🇲🇨',
+  ESP: '🇪🇸',
+  AUT: '🇦🇹',
+  GBR: '🇬🇧',
+  BEL: '🇧🇪',
+  HUN: '🇭🇺',
+  NLD: '🇳🇱',
+  ITA: '🇮🇹',
+  AZE: '🇦🇿',
+  SGP: '🇸🇬',
+  MEX: '🇲🇽',
+  BRA: '🇧🇷',
+  QAT: '🇶🇦',
+  ARE: '🇦🇪',
+};
