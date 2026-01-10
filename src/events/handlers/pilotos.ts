@@ -1,5 +1,6 @@
 import type { ChatInputCommandInteraction } from 'discord.js';
 import DRIVERS from '../../data/repos/drivers';
+import getQuote from '../../lib/getQuote';
 import spacer from '../../lib/spacer';
 
 export default async function handlePilotos(interaction: ChatInputCommandInteraction) {
@@ -25,7 +26,7 @@ export default async function handlePilotos(interaction: ChatInputCommandInterac
     console.error(`[handlePilotos]: ${error.message}`);
 
     await interaction.reply({
-      content: '💣 GP2 engine! GP2 engine!',
+      content: getQuote(),
       ephemeral: true,
     });
   }

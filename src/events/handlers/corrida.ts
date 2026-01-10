@@ -2,6 +2,7 @@ import { type ChatInputCommandInteraction } from 'discord.js';
 import GPs from '../../data/repos/grandsprix';
 import USERS from '../../data/repos/users';
 import { FLAGS } from '../../lib/constants';
+import getQuote from '../../lib/getQuote';
 
 export default async function handleCorrida(interaction: ChatInputCommandInteraction) {
   try {
@@ -34,7 +35,7 @@ export default async function handleCorrida(interaction: ChatInputCommandInterac
     console.error(`[handleCorrida]: ${error.message}`);
 
     await interaction.reply({
-      content: '💣 A trophy for the hero of race!',
+      content: getQuote(),
       ephemeral: true,
     });
   }

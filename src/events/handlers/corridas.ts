@@ -1,5 +1,6 @@
 import { type ChatInputCommandInteraction } from 'discord.js';
 import GPs from '../../data/repos/grandsprix';
+import getQuote from '../../lib/getQuote';
 import paginate from '../../lib/paginate';
 import spacer from '../../lib/spacer';
 
@@ -39,7 +40,7 @@ export default async function handleCorridas(interaction: ChatInputCommandIntera
     console.error(`[handleCorridas]: ${error.message}`);
 
     await interaction.reply({
-      content: "💣 Have a tea break while you're at it, come on!",
+      content: getQuote(),
       ephemeral: true,
     });
   }

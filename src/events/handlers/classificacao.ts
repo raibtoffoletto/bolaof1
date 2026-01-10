@@ -1,4 +1,5 @@
 import { type ChatInputCommandInteraction } from 'discord.js';
+import getQuote from '../../lib/getQuote';
 
 export default async function handleClassificacao(
   interaction: ChatInputCommandInteraction,
@@ -7,7 +8,7 @@ export default async function handleClassificacao(
   } catch (error: any) {
     console.error(`[handleClassificacao]: ${error.message}`);
     await interaction.reply({
-      content: '💣 I have the seat full of water!',
+      content: getQuote(),
       ephemeral: true,
     });
   }
