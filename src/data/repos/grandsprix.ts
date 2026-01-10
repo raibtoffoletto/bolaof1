@@ -1,4 +1,4 @@
-import dbContext from './db';
+import dbContext from '../db';
 
 function get(id: string) {
   return dbContext.get<GrandPrix>('SELECT * FROM grandsprix WHERE id = ?;', [id]);
@@ -10,7 +10,7 @@ function list() {
 
 function create(grandprix: GrandPrix) {
   const insertSql =
-    'INSERT INTO grandsprix (id, name, country, circuit, date) VALUES (?, ?, ?, ?, ?);';
+    'INSERT INTO grandsprix (id, name, country, circuit, date, polePosition, firstPlace, secondPlace, thirdPlace) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);';
 
   dbContext.exec(insertSql, [
     grandprix.id,
@@ -18,6 +18,10 @@ function create(grandprix: GrandPrix) {
     grandprix.country,
     grandprix.circuit,
     grandprix.date,
+    grandprix.polePosition ?? null,
+    grandprix.firstPlace ?? null,
+    grandprix.secondPlace ?? null,
+    grandprix.thirdPlace ?? null,
   ]);
 }
 

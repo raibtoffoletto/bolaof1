@@ -1,5 +1,5 @@
-import DRIVERS from './drivers';
-import GRANDSPRIX from './grandsprix';
+import DRIVERS from './repos/drivers';
+import GRANDSPRIX from './repos/grandsprix';
 
 const drivers: Driver[] = [
   { id: 10, name: 'Pierre Gasly', team: 'Alpine' },

@@ -1,4 +1,4 @@
-import dbContext from './db';
+import dbContext from '../db';
 
 function list() {
   return dbContext.query<Driver>('SELECT * FROM drivers ORDER BY team, name ASC;');

@@ -12,7 +12,19 @@ const grandsprix = `
     name TEXT NOT NULL,
     country TEXT NOT NULL,
     circuit TEXT NOT NULL,
-    date INTEGER NOT NULL
+    date INTEGER NOT NULL,
+    polePosition INTEGER,
+    firstPlace INTEGER,
+    secondPlace INTEGER,
+    thirdPlace INTEGER
+  );
+`;
+
+const guilds = `
+  CREATE TABLE IF NOT EXISTS guilds (
+    id TEXT NOT NULL,
+    name TEXT NOT NULL,
+    channelId TEXT NOT NULL
   );
 `;
 
@@ -24,6 +36,28 @@ const users = `
   );
 `;
 
-const migrations: string[][] = [[drivers, grandsprix, users]];
+const predictions = `
+  CREATE TABLE IF NOT EXISTS predictions (
+    grandprixId TEXT NOT NULL,
+    userId TEXT NOT NULL,
+    guildId TEXT NOT NULL,
+    polePosition INTEGER NOT NULL,
+    firstPlace INTEGER NOT NULL,
+    secondPlace INTEGER NOT NULL,
+    thirdPlace INTEGER NOT NULL
+  );
+`;
+
+const userPoints = `
+  CREATE TABLE IF NOT EXISTS userPoints (
+    userId TEXT NOT NULL,
+    guildId TEXT NOT NULL,
+    points INTEGER NOT NULL
+  );
+`;
+
+const migrations: string[][] = [
+  [drivers, grandsprix, guilds, users, predictions, userPoints],
+];
 
 export default migrations;
