@@ -20,9 +20,9 @@ const grandsprix = `
   );
 `;
 
-const guilds = `
-  CREATE TABLE IF NOT EXISTS guilds (
-    id TEXT NOT NULL,
+const instances = `
+  CREATE TABLE IF NOT EXISTS instances (
+    guildId TEXT NOT NULL,
     name TEXT NOT NULL,
     channelId TEXT NOT NULL
   );
@@ -57,7 +57,7 @@ const userPoints = `
 `;
 
 const migrations: string[][] = [
-  [drivers, grandsprix, guilds, users, predictions, userPoints],
+  [drivers, grandsprix, instances, users, predictions, userPoints],
 ];
 
 export default migrations;

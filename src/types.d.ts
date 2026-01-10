@@ -16,8 +16,8 @@ type GrandPrix = {
   thirdPlace?: number | null;
 };
 
-type Guild = {
-  id: string;
+type Instance = {
+  guildId: string;
   name: string;
   channelId: string;
 };
