@@ -4,7 +4,7 @@ import verifyGuildData from '../lib/verifyGuildData';
 
 export default async function onGuildCreate(guild: Guild) {
   try {
-    console.log(`[onGuildCreate]: Joined server ${guild.name}`);
+    console.log(`[onGuildCreate]: Joinning server <${guild.name}>`);
 
     if (!guild.members.me) {
       throw new Error('Bot member not found in guild');
