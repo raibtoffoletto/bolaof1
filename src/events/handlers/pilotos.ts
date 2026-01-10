@@ -1,5 +1,5 @@
 import type { ChatInputCommandInteraction } from 'discord.js';
-import DRIVERS from '../../data/drivers';
+import DRIVERS from '../../data/repos/drivers';
 import spacer from '../../lib/spacer';
 
 export default async function handlePilotos(interaction: ChatInputCommandInteraction) {
@@ -25,7 +25,7 @@ export default async function handlePilotos(interaction: ChatInputCommandInterac
     console.error(`[handlePilotos]: ${error.message}`);
 
     await interaction.reply({
-      content: '❌ Ocorreu um erro ao listar os pilotos.',
+      content: '💣 GP2 engine! GP2 engine!',
       ephemeral: true,
     });
   }

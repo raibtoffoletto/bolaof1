@@ -1,21 +1,18 @@
 import 'dotenv/config';
 
-import { Client, GatewayIntentBits } from 'discord.js';
+import startBot from './bot';
 import seedData from './data/seed';
-import onClientReady from './events/onClientReady';
-import onGuildCreate from './events/onGuildCreate';
-import onInteractionCreate from './events/onInteractionCreate';
+import startMonitor from './monitor';
+import startHttpServer from './server';
 
+// Set up DB and seed initial data
 seedData();
 
-const client = new Client({
-  intents: [GatewayIntentBits.Guilds],
-});
+// Start Discord bot
+const bot = startBot();
 
-client.once('clientReady', onClientReady);
+// Start monitoring service for recuring tasks
+startMonitor(bot);
 
-client.on('guildCreate', onGuildCreate);
-
-client.on('interactionCreate', onInteractionCreate);
-
-client.login(process.env.DISCORD_BOT_TOKEN);
+// Start HTTP server for admin operations
+startHttpServer(bot);

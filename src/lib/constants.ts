@@ -1,6 +1,7 @@
 export const BOT_CHANNEL_NAME = 'bolao-f1-2026';
 
 export const COMMANDS: Record<Command, string> = {
+  AJUDA: 'ajuda',
   CLASSIFICACAO: 'classificação',
   CORRIDA: 'corrida',
   CORRIDAS: 'corridas',
@@ -12,6 +13,7 @@ export const COMMANDS: Record<Command, string> = {
 export const AllCommands = Object.keys(COMMANDS) as Command[];
 
 export const COMMAND_DESCRIPTIONS: Record<string, string> = {
+  [COMMANDS.AJUDA]: 'Confira as regras e comandos do bolão',
   [COMMANDS.CLASSIFICACAO]: 'Ver a tabela de classificação dos participantes',
   [COMMANDS.CORRIDA]: 'Ver os resultados de uma corrida específica',
   [COMMANDS.CORRIDAS]: 'Ver a lista de corridas da temporada',

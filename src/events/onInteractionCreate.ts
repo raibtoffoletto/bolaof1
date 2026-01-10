@@ -1,39 +1,33 @@
 import type { Interaction } from 'discord.js';
 import { COMMANDS } from '../lib/constants';
+import handleClassificacao from './handlers/classificacao';
 import handleCorrida from './handlers/corrida';
 import handleCorridas from './handlers/corridas';
 import handlePilotos from './handlers/pilotos';
 
-export default async function onInteractionCreate(interaction: Interaction) {
+export default function onInteractionCreate(interaction: Interaction) {
   if (!interaction.isChatInputCommand()) return;
 
   switch (interaction.commandName) {
-    case COMMANDS.CORRIDA:
-      await handleCorrida(interaction);
+    case COMMANDS.AJUDA:
+      return;
 
-      break;
+    case COMMANDS.CLASSIFICACAO:
+      return handleClassificacao(interaction);
+
+    case COMMANDS.CORRIDA:
+      return handleCorrida(interaction);
 
     case COMMANDS.CORRIDAS:
-      await handleCorridas(interaction);
-
-      break;
+      return handleCorridas(interaction);
 
     case COMMANDS.PILOTOS:
-      await handlePilotos(interaction);
-
-      break;
+      return handlePilotos(interaction);
 
     default:
-      await interaction.reply({
-        content: '🤔 hum... não tou achando esse comando!',
+      return interaction.reply({
+        content: '🤔 hum... não estou achando esse comando!',
         ephemeral: true,
       });
-
-      break;
   }
 }
-
-// interaction.user.id
-// interaction.user.username
-// interaction.user.avatar
-// interaction.guildId

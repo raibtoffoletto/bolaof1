@@ -1,5 +1,6 @@
 import { type ChatInputCommandInteraction } from 'discord.js';
-import GPs from '../../data/grandsprix';
+import GPs from '../../data/repos/grandsprix';
+import USERS from '../../data/repos/users';
 import { FLAGS } from '../../lib/constants';
 
 export default async function handleCorrida(interaction: ChatInputCommandInteraction) {
@@ -15,21 +16,25 @@ export default async function handleCorrida(interaction: ChatInputCommandInterac
     content += `* 🎪\t**Circuito**: ${gp.circuit}\n`;
     content += `* ⏰\t**Data**: <t:${gp.date / 1000}:F>\n`;
 
+    const isInPast = gp.date < Date.now();
     // TODO: implement results and user guesses
-    // if (gp.date < Date.now()) {
+    // if (isInPast) {
     //   content += '\n\n ## Resultados\n';
     // }
 
-    // if (gp.date < Date.now()) {
-    //   content += '\n\n ## Meu Palpites\n';
-    // }
+    const user = USERS.get(interaction.user.id, interaction.guildId ?? '');
+    if (!!user) {
+      content += '\n## Meu Palpites\n';
+
+      content += `> Você ${isInPast ? '' : 'ainda'} não deu o seu palpite para esta corrida!\n`;
+    }
 
     await interaction.reply({ content, ephemeral: true });
   } catch (error: any) {
     console.error(`[handleCorrida]: ${error.message}`);
 
     await interaction.reply({
-      content: '🔍 Não achei a corrida que você pediu.',
+      content: '💣 A trophy for the hero of race!',
       ephemeral: true,
     });
   }
