@@ -1,5 +1,9 @@
 export const BOT_CHANNEL_NAME = 'bolao-f1-2026';
 
+export const BOT_EVENT_PREFIX = 'bolaof1:';
+export const VOTE_EVENT_ID = `${BOT_EVENT_PREFIX}:vote:`;
+export const SUBMIT_EVENT_ID = `${BOT_EVENT_PREFIX}:submit:`;
+
 export const COMMANDS: Record<Command, string> = {
   AJUDA: 'ajuda',
   CLASSIFICACAO: 'classificação',

@@ -7,11 +7,16 @@ function get(grandprixId: string, channelId: string) {
   );
 }
 
-function create(grandprixId: string, channelId: string, messageId: string) {
+function create(
+  grandprixId: string,
+  channelId: string,
+  messageId: string,
+  locked = false,
+) {
   const insertSql =
-    'INSERT INTO notifications (grandprixId, channelId, messageId) VALUES (?, ?, ?);';
+    'INSERT INTO notifications (grandprixId, channelId, messageId, locked) VALUES (?, ?, ?, ?);';
 
-  dbContext.exec(insertSql, [grandprixId, channelId, messageId]);
+  dbContext.exec(insertSql, [grandprixId, channelId, messageId, locked ? 1 : 0]);
 }
 
 function lock(grandprixId: string, channelId: string) {

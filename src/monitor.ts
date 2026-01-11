@@ -8,9 +8,12 @@ import {
 import GPs from './data/repos/grandsprix';
 import INSTANCES from './data/repos/instances';
 import NOTIFICATIONS from './data/repos/notifications';
-import { FLAGS } from './lib/constants';
+import { FLAGS, VOTE_EVENT_ID } from './lib/constants';
 
-const interval = Number(process.env.MONITOR_INTERVAL ?? 1) * 60 * 1000; // Every hour by default
+// TODO: adjust to deploy time
+const interval = Number(process.env.MONITOR_INTERVAL ?? 1) * 60 * 1000; // * 60 Every hour by default
+
+const isTooLate = (gpDate: number) => Date.now() > gpDate - 24 * 60 * 60 * 1000;
 
 function getMessageContent(gp: GrandPrix, lock = false) {
   let content = `# ${FLAGS[gp.country]} ${gp.name}\n\n\n`;
@@ -41,19 +44,21 @@ async function getValidEntities(client: Client, grandprixId: string, channelId: 
 async function notify(client: Client, grandprixId: string, channelId: string) {
   const { gp, channel } = await getValidEntities(client, grandprixId, channelId);
 
+  const tooLate = isTooLate(gp.date);
+
   const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
     new ButtonBuilder()
-      .setCustomId(`bolaof1:${grandprixId}`)
+      .setCustomId(`${VOTE_EVENT_ID}${grandprixId}`)
       .setLabel('🏁 Deixe o seu palpite 🏁')
       .setStyle(ButtonStyle.Primary),
   );
 
   const message = await channel.send({
-    content: getMessageContent(gp),
-    components: [row],
+    content: getMessageContent(gp, tooLate),
+    components: tooLate ? [] : [row],
   });
 
-  NOTIFICATIONS.create(grandprixId, channelId, message.id);
+  NOTIFICATIONS.create(grandprixId, channelId, message.id, tooLate);
   console.log(`[monitor] Channel <${channelId}> notifyed for gp <${grandprixId}>.`);
 }
 
@@ -104,7 +109,7 @@ function gpMonitor(client: Client) {
             continue;
           }
 
-          if (!notification.locked && Date.now() > gp.date - 24 * 60 * 60 * 1000) {
+          if (!notification.locked && isTooLate(gp.date)) {
             await lock(client, notification);
           }
         }
