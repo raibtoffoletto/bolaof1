@@ -56,8 +56,17 @@ const userPoints = `
   );
 `;
 
+const notifications = `
+  CREATE TABLE IF NOT EXISTS notifications (
+    grandprixId TEXT NOT NULL,
+    channelId TEXT NOT NULL,
+    messageId TEXT NOT NULL,
+    locked INTEGER NOT NULL DEFAULT 0
+  );
+`;
+
 const migrations: string[][] = [
-  [drivers, grandsprix, instances, users, predictions, userPoints],
+  [drivers, grandsprix, instances, users, predictions, userPoints, notifications],
 ];
 
 export default migrations;

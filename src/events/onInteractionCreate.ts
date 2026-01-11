@@ -1,5 +1,6 @@
 import type { Interaction } from 'discord.js';
 import { COMMANDS } from '../lib/constants';
+import handleAjuda from './handlers/ajuda';
 import handleClassificacao from './handlers/classificacao';
 import handleCorrida from './handlers/corrida';
 import handleCorridas from './handlers/corridas';
@@ -10,7 +11,7 @@ export default function onInteractionCreate(interaction: Interaction) {
 
   switch (interaction.commandName) {
     case COMMANDS.AJUDA:
-      return;
+      return handleAjuda(interaction);
 
     case COMMANDS.CLASSIFICACAO:
       return handleClassificacao(interaction);

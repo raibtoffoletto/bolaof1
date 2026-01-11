@@ -12,7 +12,21 @@ seedData();
 const bot = startBot();
 
 // Start monitoring service for recuring tasks
-startMonitor(bot);
+const monitor = startMonitor(bot);
 
 // Start HTTP server for admin operations
-startHttpServer(bot);
+const server = startHttpServer(bot);
+
+// Graceful shutdown
+async function shutdown() {
+  console.log('Shutting down gracefully...');
+  monitor.stop();
+  server.stop();
+
+  await bot.destroy();
+
+  process.exit(0);
+}
+
+process.on('SIGINT', shutdown);
+process.on('SIGTERM', shutdown);

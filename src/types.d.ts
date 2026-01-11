@@ -44,6 +44,13 @@ type UserPoints = {
   points: number;
 };
 
+type GPNotification = {
+  grandprixId: string;
+  channelId: string;
+  messageId: string;
+  locked: boolean;
+};
+
 type Command =
   | 'AJUDA'
   | 'CLASSIFICACAO'

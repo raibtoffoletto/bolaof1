@@ -33,8 +33,8 @@ async function getOrCreateBotChannel(guild: Guild) {
   });
 
   await newChannel.send(
-    `# 🎉 Bem-vindos ao Bolão da F1 2026 🎉\n\n` +
-      `- Por aqui você poderá palpitar corrida a corrida e ganhar pontos para o bolão.\n\n` +
+    `# 🎉 Bem-vindos ao Bolão da F1 2026 🎉\n` +
+      `- Por aqui você poderá palpitar corrida a corrida e ganhar pontos para o bolão.\n` +
       `- Fique atento às mensagens para não perder nenhuma novidade! 🚀\n\n` +
       `> Para começar, utilize o comando \`/ajuda\` para ver todas as funcionalidades disponíveis e regras.`,
   );
