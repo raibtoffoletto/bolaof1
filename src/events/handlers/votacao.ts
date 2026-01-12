@@ -6,7 +6,7 @@ import {
   type ButtonInteraction,
 } from 'discord.js';
 import GPs from '../../data/repos/grandsprix';
-import { SUBMIT_EVENT_ID, VOTE_EVENT_ID } from '../../lib/constants';
+import { P1, P2, P3, POLE, SUBMIT_EVENT_ID, VOTE_EVENT_ID } from '../../lib/constants';
 
 export default async function handleVotacao(interaction: ButtonInteraction) {
   try {
@@ -23,10 +23,10 @@ export default async function handleVotacao(interaction: ButtonInteraction) {
       .setTitle(`Palpites para o ${gp.name} 🏁`);
 
     const options = [
-      ['pole', 'Pole Position'],
-      ['p1', 'Primeiro colocado'],
-      ['p2', 'Segundo colocado'],
-      ['p3', 'Terceiro colocado'],
+      ['pole', POLE],
+      ['p1', P1],
+      ['p2', P2],
+      ['p3', P3],
     ].map(([id, label]) =>
       new ActionRowBuilder<TextInputBuilder>().addComponents(
         new TextInputBuilder()

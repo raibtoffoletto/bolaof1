@@ -4,6 +4,11 @@ export const BOT_EVENT_PREFIX = 'bolaof1:';
 export const VOTE_EVENT_ID = `${BOT_EVENT_PREFIX}:vote:`;
 export const SUBMIT_EVENT_ID = `${BOT_EVENT_PREFIX}:submit:`;
 
+export const POLE = '⏱ Pole Position';
+export const P1 = '🥇 Primeiro colocado';
+export const P2 = '🥈 Segundo colocado';
+export const P3 = '🥉 Terceiro colocado';
+
 export const COMMANDS: Record<Command, string> = {
   AJUDA: 'ajuda',
   CLASSIFICACAO: 'classificação',
