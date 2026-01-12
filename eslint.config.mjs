@@ -17,7 +17,7 @@ const compat = new FlatCompat({
 });
 
 export default defineConfig([
-  globalIgnores(['**/dist', '**/node_modules', '**/jest.config.cjs']),
+  globalIgnores(['**/dist', '**/node_modules', '**/jest.config.cjs', 'src/admin/app.js']),
   {
     extends: compat.extends(
       'eslint:recommended',

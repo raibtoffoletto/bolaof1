@@ -36,11 +36,18 @@ type Prediction = {
   firstPlace: number;
   secondPlace: number;
   thirdPlace: number;
+  points: number;
 };
 
-type UserPoints = {
-  userId: string;
+type GPPrediction = {
+  server: string;
   guildId: string;
+  userId: string;
+  username: string;
+  polePosition: number;
+  firstPlace: number;
+  secondPlace: number;
+  thirdPlace: number;
   points: number;
 };
 

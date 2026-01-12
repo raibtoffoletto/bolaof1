@@ -32,9 +32,23 @@ function create(grandprix: GrandPrix) {
   ]);
 }
 
+function update(grandprix: GrandPrix) {
+  const insertSql =
+    'UPDATE grandsprix SET polePosition = ?, firstPlace = ?, secondPlace = ?, thirdPlace = ? WHERE id = ?;';
+
+  dbContext.exec(insertSql, [
+    grandprix.polePosition ?? null,
+    grandprix.firstPlace ?? null,
+    grandprix.secondPlace ?? null,
+    grandprix.thirdPlace ?? null,
+    grandprix.id,
+  ]);
+}
+
 export default {
   get,
   list,
   find,
   create,
+  update,
 };

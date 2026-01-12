@@ -83,6 +83,7 @@ export default async function handlePalpitar(interaction: ModalSubmitInteraction
       firstPlace: p1,
       secondPlace: p2,
       thirdPlace: p3,
+      points: 0,
     };
 
     const _prediction = PREDICTIONS.get(grandprixId, userId, guildId);

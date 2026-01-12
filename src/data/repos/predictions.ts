@@ -7,6 +7,18 @@ function list(grandprixId: string, guildId: string) {
   );
 }
 
+function listByGp(grandprixId: string) {
+  return dbContext.query<GPPrediction>(
+    `SELECT i.name as server, p.guildId, p.userId, u.username, p.polePosition, p.firstPlace, p.secondPlace, p.thirdPlace, p.points
+      FROM predictions p
+      LEFT JOIN users u ON u.id = p.userId
+      LEFT JOIN instances i ON i.guildId = p.guildId
+      WHERE p.grandprixId = ?
+      ORDER BY i.name, u.username;`,
+    [grandprixId],
+  );
+}
+
 function get(grandprixId: string, userId: string, guildId: string) {
   return dbContext.get<Prediction>(
     'SELECT * FROM predictions WHERE grandprixId = ? AND userId = ? AND guildId = ?;',
@@ -16,7 +28,7 @@ function get(grandprixId: string, userId: string, guildId: string) {
 
 function create(prediction: Prediction) {
   const insertSql =
-    'INSERT INTO predictions (grandprixId, userId, guildId, polePosition, firstPlace, secondPlace, thirdPlace) VALUES (?, ?, ?, ?, ?, ?, ?);';
+    'INSERT INTO predictions (grandprixId, userId, guildId, polePosition, firstPlace, secondPlace, thirdPlace, points) VALUES (?, ?, ?, ?, ?, ?, ?, ?);';
 
   dbContext.exec(insertSql, [
     prediction.grandprixId,
@@ -26,18 +38,20 @@ function create(prediction: Prediction) {
     prediction.firstPlace,
     prediction.secondPlace,
     prediction.thirdPlace,
+    prediction.points,
   ]);
 }
 
 function update(prediction: Prediction) {
   const insertSql =
-    'UPDATE predictions SET polePosition = ?, firstPlace = ?, secondPlace = ?, thirdPlace = ? WHERE grandprixId = ? AND userId = ? AND guildId = ?;';
+    'UPDATE predictions SET polePosition = ?, firstPlace = ?, secondPlace = ?, thirdPlace = ?, points = ? WHERE grandprixId = ? AND userId = ? AND guildId = ?;';
 
   dbContext.exec(insertSql, [
     prediction.polePosition,
     prediction.firstPlace,
     prediction.secondPlace,
     prediction.thirdPlace,
+    prediction.points,
     prediction.grandprixId,
     prediction.userId,
     prediction.guildId,
@@ -46,6 +60,7 @@ function update(prediction: Prediction) {
 
 export default {
   list,
+  listByGp,
   get,
   create,
   update,

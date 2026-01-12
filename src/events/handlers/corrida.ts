@@ -6,17 +6,17 @@ import USERS from '../../data/repos/users';
 import { FLAGS, P1, P2, P3, POLE } from '../../lib/constants';
 import getQuote from '../../lib/getQuote';
 
-function getPredictionLabel(pole: number, p1: number, p2: number, p3: number) {
+function getPodiumLabel(pole: number, p1: number, p2: number, p3: number) {
   const drivers = DRIVERS.list();
   const dPole = drivers.find((x) => x.id === pole);
   const dP1 = drivers.find((x) => x.id === p1);
   const dP2 = drivers.find((x) => x.id === p2);
   const dP3 = drivers.find((x) => x.id === p3);
 
-  let content = `${POLE}: ${dPole?.name} <${dPole?.id}>\n`;
-  content += `${P1}: ${dP1?.name} <${dP1?.id}>\n`;
-  content += `${P2}: ${dP2?.name} <${dP2?.id}>\n`;
-  content += `${P3}: ${dP3?.name} <${dP3?.id}>\n`;
+  let content = `${POLE}: **${dPole?.name}** (${dPole?.id})\n`;
+  content += `${P1}: **${dP1?.name}** (${dP1?.id})\n`;
+  content += `${P2}: **${dP2?.name}** (${dP2?.id})\n`;
+  content += `${P3}: **${dP3?.name}** (${dP3?.id})\n`;
 
   return content;
 }
@@ -34,13 +34,17 @@ export default async function handleCorrida(interaction: ChatInputCommandInterac
     content += `* 🎪\t**Circuito**: ${gp.circuit}\n`;
     content += `* ⏰\t**Data**: <t:${gp.date / 1000}:F>\n`;
 
+    if (!!gp.polePosition && !!gp.firstPlace && !!gp.secondPlace && !!gp.thirdPlace) {
+      content += '\n## Resultados\n\n';
+      content += getPodiumLabel(
+        gp.polePosition,
+        gp.firstPlace,
+        gp.secondPlace,
+        gp.thirdPlace,
+      );
+    }
+
     const isInPast = gp.date < Date.now();
-
-    // TODO: implement results
-    // if (isInPast) {
-    //   content += '\n\n ## Resultados\n';
-    // }
-
     const guildId = interaction.guildId ?? '';
     const user = USERS.get(interaction.user.id, guildId);
     if (!!user) {
@@ -49,12 +53,16 @@ export default async function handleCorrida(interaction: ChatInputCommandInterac
       content += '\n## Meu Palpites\n\n';
 
       if (prediction) {
-        content += getPredictionLabel(
+        content += getPodiumLabel(
           prediction.polePosition,
           prediction.firstPlace,
           prediction.secondPlace,
           prediction.thirdPlace,
         );
+
+        if (isInPast) {
+          content += `> Pontos ganhos: **${prediction.points}**`;
+        }
       } else {
         content += `> Você ${isInPast ? '' : 'ainda'} não deu o seu palpite para esta corrida!`;
       }

@@ -9,6 +9,17 @@ export const P1 = '🥇 Primeiro colocado';
 export const P2 = '🥈 Segundo colocado';
 export const P3 = '🥉 Terceiro colocado';
 
+export const POINTS = {
+  SPOLE: 3,
+  SP1: 10,
+  SP2: 8,
+  SP3: 6,
+  POLE: 5,
+  P1: 25,
+  P2: 18,
+  P3: 15,
+};
+
 export const COMMANDS: Record<Command, string> = {
   AJUDA: 'ajuda',
   CLASSIFICACAO: 'classificação',

@@ -44,15 +44,8 @@ const predictions = `
     polePosition INTEGER NOT NULL,
     firstPlace INTEGER NOT NULL,
     secondPlace INTEGER NOT NULL,
-    thirdPlace INTEGER NOT NULL
-  );
-`;
-
-const userPoints = `
-  CREATE TABLE IF NOT EXISTS userPoints (
-    userId TEXT NOT NULL,
-    guildId TEXT NOT NULL,
-    points INTEGER NOT NULL
+    thirdPlace INTEGER NOT NULL,
+    points INTEGER NOT NULL DEFAULT 0
   );
 `;
 
@@ -66,7 +59,7 @@ const notifications = `
 `;
 
 const migrations: string[][] = [
-  [drivers, grandsprix, instances, users, predictions, userPoints, notifications],
+  [drivers, grandsprix, instances, users, predictions, notifications],
 ];
 
 export default migrations;
