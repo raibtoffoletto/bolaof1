@@ -42,14 +42,14 @@ const grandsprix: GrandPrix[] = [
     name: 'Home Grand Prix',
     country: 'BRA',
     circuit: 'Minha cama, Casinha',
-    date: 1768464000000,
+    date: 1768489200000,
   },
   {
     id: '0S',
     name: 'Home SPRINT',
     country: 'BRA',
     circuit: 'Minha cama, Casinha',
-    date: 1768377600000,
+    date: 1768464000000,
   },
   {
     id: '1',
