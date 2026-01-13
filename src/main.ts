@@ -2,7 +2,7 @@ import 'dotenv/config';
 
 import startBot from './bot';
 import seedData from './data/seed';
-import startMonitor from './monitor';
+// import startMonitor from './monitor';
 import startHttpServer from './server';
 
 // Set up DB and seed initial data
@@ -12,7 +12,7 @@ seedData();
 const bot = startBot();
 
 // Start monitoring service for recuring tasks
-const monitor = startMonitor(bot);
+// const monitor = startMonitor(bot);
 
 // Start HTTP server for admin operations
 const server = startHttpServer(bot);
@@ -20,7 +20,7 @@ const server = startHttpServer(bot);
 // Graceful shutdown
 async function shutdown() {
   console.log('Shutting down gracefully...');
-  monitor.stop();
+  // monitor.stop();
   server.stop();
 
   await bot.destroy();

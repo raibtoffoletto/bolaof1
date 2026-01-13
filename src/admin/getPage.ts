@@ -5,7 +5,7 @@ const template = `
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Bolão da F1 2026</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/dark.min.css" />
     <style>
       table {
         table-layout: auto;
@@ -21,11 +21,11 @@ const template = `
   <body>
     <h1>Bolão da F1 2026 - <em>Admin</em></h1>
 
-    <ul>
-      <li><a href="/">Classificações</a></li>
-      <li><a href="/gps">Grands Prix</a></li>
-      <li><a href="/drivers">Pilotos</a></li>
-    </ul>
+    <nav>
+      <a href="/"><button>Classificações</button></a>
+      <a href="/gps"><button>Grands Prix</button></a>
+      <a href="/drivers"><button>Pilotos</button></a>
+    </nav>
 
     <hr />
 
