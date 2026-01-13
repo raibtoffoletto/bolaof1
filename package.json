@@ -1,16 +1,16 @@
 {
-  "name": "f1bot",
-  "version": "0.0.0",
+  "name": "bolaof1",
+  "version": "0.0.1",
   "license": "GPL-3.0-only",
   "author": "Raí B. Toffoletto <rai@toffoletto.me>",
-  "description": "Discord BOT for the channel \"Paddock Club\" from Julianne Cerasoli",
+  "description": "Bot para servidores Discord jogarem um bolão para a temporada 2026 de F1",
   "homepage": "https://toffoletto.me",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/raibtoffoletto/f1bot.git"
+    "url": "git+https://github.com/raibtoffoletto/bolaof1.git"
   },
   "bugs": {
-    "url": "https://github.com/raibtoffoletto/f1bot/issues"
+    "url": "https://github.com/raibtoffoletto/bolaof1/issues"
   },
   "private": true,
   "type": "module",
