@@ -26,5 +26,5 @@
     "noUnusedParameters": true,
     "strict": true
   },
-  "include": ["vite.config.ts", "src"]
+  "include": ["tsup.config.ts", "src"]
 }

@@ -1,0 +1,42 @@
+# node / package managers
+node_modules
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# build artifacts (built inside Docker)
+dist
+.build
+.cache
+
+# TypeScript
+*.tsbuildinfo
+
+# tooling / dev stuff
+.vscode
+.idea
+*.swp
+*.log
+
+# tests
+__tests__
+coverage
+*.spec.ts
+*.test.ts
+
+# git
+.git
+.gitignore
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# env files (handled by Docker / runtime)
+.env
+.env.*
+
+.prettierrc.json
+COPYING
+README.md
