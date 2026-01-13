@@ -20,7 +20,7 @@ export default async function notifyRanks(
     content += header;
 
     const position = i * 15 + 1;
-    for (const prediction of predictions) {
+    for (const prediction of _predictions) {
       content += ` ${position.toString().padEnd(3, ' ')} │ ${prediction.username} │ ${prediction.points}\n`;
     }
 
