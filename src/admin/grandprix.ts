@@ -61,7 +61,7 @@ const grandprixHandler: RequestHandler = async (req, res) => {
 
   // Predictions
   const predictions = PREDICTIONS.listByGp(id);
-  const columns = Object.keys(predictions[0]).filter(
+  const columns = Object.keys(predictions?.[0] || {}).filter(
     (k) => !['guildId', 'userId'].includes(k),
   );
 

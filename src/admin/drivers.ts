@@ -6,7 +6,7 @@ import getPage from './getPage';
 const driversHandler: RequestHandler = async (_, res) => {
   const drivers = DRIVERS.list();
 
-  const columns = Object.keys(drivers[0]);
+  const columns = Object.keys(drivers?.[0] || {});
 
   const headers = `<thead><tr>${columns.map((col) => `<th>${col}</th>`).join('')}</tr></thead>`;
 

@@ -27,7 +27,9 @@ export default async function onClientReady(client: Client) {
 
     const guilds = client.guilds.cache;
 
-    for (const [_, guild] of guilds) {
+    for (const keyPair of guilds) {
+      const guild = keyPair[1];
+
       await verifyGuildData(guild);
       await registerCommands(guild.id);
     }

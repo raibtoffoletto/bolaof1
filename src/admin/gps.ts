@@ -5,7 +5,7 @@ import getPage from './getPage';
 const gpsHandler: RequestHandler = (_, res) => {
   const gps = GPs.list();
 
-  const columns = Object.keys(gps[0]);
+  const columns = Object.keys(gps?.[0] || {});
 
   const headers = `<thead><tr>${columns.map((col) => `<th>${col}</th>`).join('')}</tr></thead>`;
 
