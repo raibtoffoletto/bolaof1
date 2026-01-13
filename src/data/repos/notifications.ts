@@ -26,8 +26,16 @@ function lock(grandprixId: string, channelId: string) {
   );
 }
 
+function setResults(grandprixId: string, channelId: string) {
+  return dbContext.get<GPNotification>(
+    'UPDATE notifications SET results = 1 WHERE grandprixId = ? AND channelId = ?;',
+    [grandprixId, channelId],
+  );
+}
+
 export default {
   get,
   create,
   lock,
+  setResults,
 };

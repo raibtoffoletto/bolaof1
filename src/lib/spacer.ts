@@ -1,8 +1,3 @@
-type SpacerOptions = {
-  solid: boolean;
-  text: string;
-};
-
 export default function spacer(length: number, ops?: Partial<SpacerOptions>): string {
   const { solid, text }: SpacerOptions = { solid: false, text: '', ...ops };
 

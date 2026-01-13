@@ -34,8 +34,6 @@ const template = `
 </html>
 `;
 
-type PageArgs = { title?: string; content?: string };
-
 export default function getPage(args?: PageArgs): string {
   let content = template;
 

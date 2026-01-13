@@ -1,20 +1,25 @@
 import { type ChatInputCommandInteraction } from 'discord.js';
 import getQuote from '../../lib/getQuote';
+import notifyRanks from '../../lib/notifyRanks';
 
 export default async function handleClassificacao(
   interaction: ChatInputCommandInteraction,
 ) {
-  // TODO: Implement classification content
+  await interaction.deferReply({ ephemeral: true });
+
   try {
-    await interaction.reply({
-      content: getQuote(),
-      ephemeral: true,
-    });
+    await notifyRanks(
+      interaction.guild?.id ?? '',
+      async (content) => {
+        await interaction.editReply({ content });
+      },
+      async (content) => {
+        await interaction.followUp({ content, ephemeral: true });
+      },
+    );
   } catch (error: any) {
     console.error(`[handleClassificacao]: ${error.message}`);
-    await interaction.reply({
-      content: getQuote(),
-      ephemeral: true,
-    });
+
+    await interaction.editReply({ content: getQuote() });
   }
 }

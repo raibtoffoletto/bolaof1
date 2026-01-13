@@ -5,6 +5,8 @@ import paginate from '../../lib/paginate';
 import spacer from '../../lib/spacer';
 
 export default async function handleCorridas(interaction: ChatInputCommandInteraction) {
+  await interaction.deferReply({ ephemeral: true });
+
   try {
     const gps = GPs.list();
     const nameLength = Math.max(...gps.map((d) => d.name.length));
@@ -28,7 +30,7 @@ export default async function handleCorridas(interaction: ChatInputCommandIntera
       content += `\`\`\``;
 
       if (i === 0) {
-        await interaction.reply({ content: content, ephemeral: true });
+        await interaction.editReply({ content: content });
 
         i++;
         continue;
@@ -39,9 +41,6 @@ export default async function handleCorridas(interaction: ChatInputCommandIntera
   } catch (error: any) {
     console.error(`[handleCorridas]: ${error.message}`);
 
-    await interaction.reply({
-      content: getQuote(),
-      ephemeral: true,
-    });
+    await interaction.editReply({ content: getQuote() });
   }
 }

@@ -4,6 +4,8 @@ import getQuote from '../../lib/getQuote';
 import spacer from '../../lib/spacer';
 
 export default async function handlePilotos(interaction: ChatInputCommandInteraction) {
+  await interaction.deferReply({ ephemeral: true });
+
   try {
     const drivers = DRIVERS.list();
 
@@ -21,13 +23,10 @@ export default async function handlePilotos(interaction: ChatInputCommandInterac
 
     content += `\`\`\``;
 
-    await interaction.reply({ content, ephemeral: true });
+    await interaction.editReply({ content });
   } catch (error: any) {
     console.error(`[handlePilotos]: ${error.message}`);
 
-    await interaction.reply({
-      content: getQuote(),
-      ephemeral: true,
-    });
+    await interaction.editReply({ content: getQuote() });
   }
 }

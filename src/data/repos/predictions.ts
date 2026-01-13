@@ -19,6 +19,18 @@ function listByGp(grandprixId: string) {
   );
 }
 
+function listByGuild(guildId: string) {
+  return dbContext.query<UserPoints>(
+    `SELECT u.username, sum(p.points) as points
+      FROM predictions p
+      LEFT JOIN users u ON u.id = p.userId
+      WHERE p.guildId = ?
+      GROUP BY p.userId
+      ORDER BY points DESC`,
+    [guildId],
+  );
+}
+
 function get(grandprixId: string, userId: string, guildId: string) {
   return dbContext.get<Prediction>(
     'SELECT * FROM predictions WHERE grandprixId = ? AND userId = ? AND guildId = ?;',
@@ -61,6 +73,7 @@ function update(prediction: Prediction) {
 export default {
   list,
   listByGp,
+  listByGuild,
   get,
   create,
   update,

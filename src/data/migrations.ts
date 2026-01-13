@@ -54,7 +54,8 @@ const notifications = `
     grandprixId TEXT NOT NULL,
     channelId TEXT NOT NULL,
     messageId TEXT NOT NULL,
-    locked INTEGER NOT NULL DEFAULT 0
+    locked INTEGER NOT NULL DEFAULT 0,
+    results INTEGER NOT NULL DEFAULT 0
   );
 `;
 

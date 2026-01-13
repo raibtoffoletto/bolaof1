@@ -10,8 +10,7 @@ import INSTANCES from './data/repos/instances';
 import NOTIFICATIONS from './data/repos/notifications';
 import { FLAGS, VOTE_EVENT_ID } from './lib/constants';
 
-// TODO: adjust to deploy time
-const interval = Number(process.env.MONITOR_INTERVAL ?? 1) * 60 * 1000; // * 60 Every hour by default
+const interval = Number(process.env.MONITOR_INTERVAL ?? 1) * 60 * 60 * 1000; //  Every hour by default
 
 const isTooLate = (gpDate: number) => Date.now() > gpDate - 24 * 60 * 60 * 1000;
 

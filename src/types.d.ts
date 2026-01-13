@@ -51,18 +51,26 @@ type GPPrediction = {
   points: number;
 };
 
+type UserPoints = {
+  username: string;
+  points: number;
+};
+
 type GPNotification = {
   grandprixId: string;
   channelId: string;
   messageId: string;
   locked: boolean;
+  results: boolean;
 };
 
-type Command =
-  | 'AJUDA'
-  | 'CLASSIFICACAO'
-  | 'CORRIDA'
-  | 'CORRIDAS'
-  | 'PALPITAR'
-  | 'PARTICIPAR'
-  | 'PILOTOS';
+type Command = 'AJUDA' | 'CLASSIFICACAO' | 'CORRIDA' | 'CORRIDAS' | 'PILOTOS';
+
+type PageArgs = { title?: string; content?: string };
+
+type MessageCallback = (content: string) => Promise<void>;
+
+type SpacerOptions = {
+  solid: boolean;
+  text: string;
+};

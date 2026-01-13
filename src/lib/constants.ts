@@ -25,8 +25,6 @@ export const COMMANDS: Record<Command, string> = {
   CLASSIFICACAO: 'classificação',
   CORRIDA: 'corrida',
   CORRIDAS: 'corridas',
-  PALPITAR: 'palpitar',
-  PARTICIPAR: 'participar',
   PILOTOS: 'pilotos',
 };
 
@@ -37,8 +35,6 @@ export const COMMAND_DESCRIPTIONS: Record<string, string> = {
   [COMMANDS.CLASSIFICACAO]: 'Ver a tabela de classificação dos participantes',
   [COMMANDS.CORRIDA]: 'Ver os resultados de uma corrida específica',
   [COMMANDS.CORRIDAS]: 'Ver a lista de corridas da temporada',
-  [COMMANDS.PALPITAR]: 'Palpitar sobre o resultado do próximo GP',
-  [COMMANDS.PARTICIPAR]: 'Participar do bolão corrida a corrida',
   [COMMANDS.PILOTOS]: 'Ver a lista de pilotos',
 };
 
