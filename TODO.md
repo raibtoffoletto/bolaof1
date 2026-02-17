@@ -1,0 +1,6 @@
+- setup discord dev bot2
+- abrir canal para mensagens/commandos
+- deixar botões para interação, fixados, nos anúncios das corridas.
+- janela de votação com select
+- tabela de resultados, fix indentation
+- §
