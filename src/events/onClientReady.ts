@@ -21,11 +21,11 @@ export default async function onClientReady(client: Client) {
   try {
     console.log(`[onClientReady]: <${client.user?.tag}> is online 🎉`);
 
-    console.log(
-      `[onClientReady]: Updating slash commands for all guilds and veryfying data integrity.`,
-    );
-
     const guilds = client.guilds.cache;
+
+    console.log(
+      `[onClientReady]: Updating slash commands for ${guilds.size} guilds and veryfying data integrity.`,
+    );
 
     for (const keyPair of guilds) {
       const guild = keyPair[1];

@@ -38,18 +38,18 @@ const drivers: Driver[] = [
 
 const grandsprix: GrandPrix[] = [
   {
-    id: '0',
-    name: 'Home Grand Prix',
+    id: '0S',
+    name: 'Test SPRINT',
     country: 'BRA',
-    circuit: 'Minha cama, Casinha',
-    date: 1768489200000,
+    circuit: 'Discord',
+    date: 1772290800000,
   },
   {
-    id: '0S',
-    name: 'Home SPRINT',
+    id: '0',
+    name: 'Test Grand Prix',
     country: 'BRA',
-    circuit: 'Minha cama, Casinha',
-    date: 1768464000000,
+    circuit: 'Discord',
+    date: 1772380800000,
   },
   {
     id: '1',
