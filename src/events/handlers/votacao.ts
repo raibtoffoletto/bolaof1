@@ -6,11 +6,18 @@ import {
   type ButtonInteraction,
 } from 'discord.js';
 import GPs from '../../data/repos/grandsprix';
-import { P1, P2, P3, POLE, SUBMIT_EVENT_ID, VOTE_EVENT_ID } from '../../lib/constants';
+import {
+  P1,
+  P2,
+  P3,
+  POLE,
+  START_VOTING_EVENT_ID,
+  SUBMIT_VOTE_EVENT_ID,
+} from '../../lib/constants';
 
 export default async function handleVotacao(interaction: ButtonInteraction) {
   try {
-    const grandprixId = interaction.customId.replace(VOTE_EVENT_ID, '');
+    const grandprixId = interaction.customId.replace(START_VOTING_EVENT_ID, '');
 
     const gp = GPs.get(grandprixId);
 
@@ -19,7 +26,7 @@ export default async function handleVotacao(interaction: ButtonInteraction) {
     }
 
     const modal = new ModalBuilder()
-      .setCustomId(`${SUBMIT_EVENT_ID}${grandprixId}`)
+      .setCustomId(`${SUBMIT_VOTE_EVENT_ID}${grandprixId}`)
       .setTitle(`Palpites para o ${gp.name} 🏁`);
 
     const options = [

@@ -1,9 +1,9 @@
-import { type ChatInputCommandInteraction } from 'discord.js';
+import { type ChatInputCommandInteraction, ButtonInteraction } from 'discord.js';
 import getQuote from '../../lib/getQuote';
 import notifyRanks from '../../lib/notifyRanks';
 
 export default async function handleClassificacao(
-  interaction: ChatInputCommandInteraction,
+  interaction: ChatInputCommandInteraction | ButtonInteraction,
 ) {
   await interaction.deferReply({ ephemeral: true });
 
@@ -19,6 +19,7 @@ export default async function handleClassificacao(
     );
   } catch (error: any) {
     console.error(`[handleClassificacao]: ${error.message}`);
+    console.error(error);
 
     await interaction.editReply({ content: getQuote() });
   }

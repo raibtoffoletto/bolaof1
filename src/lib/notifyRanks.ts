@@ -9,6 +9,12 @@ export default async function notifyRanks(
 ) {
   const predictions = PREDICTIONS.listByGuild(guildId);
 
+  if (predictions.length === 0) {
+    return await firstPage(
+      'Aguardando o fim da primeira corrida para mostrar a classificação geral do Bolão!',
+    );
+  }
+
   const nameLength = Math.max(...predictions.map((p) => p.username.length));
 
   let header = ` #   │ ${spacer(nameLength, { text: 'Usuário' })} │ Pontos\n`;

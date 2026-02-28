@@ -1,10 +1,12 @@
-import { type ChatInputCommandInteraction } from 'discord.js';
+import { type ChatInputCommandInteraction, ButtonInteraction } from 'discord.js';
 import GPs from '../../data/repos/grandsprix';
 import getQuote from '../../lib/getQuote';
 import paginate from '../../lib/paginate';
 import spacer from '../../lib/spacer';
 
-export default async function handleCorridas(interaction: ChatInputCommandInteraction) {
+export default async function handleCorridas(
+  interaction: ChatInputCommandInteraction | ButtonInteraction,
+) {
   await interaction.deferReply({ ephemeral: true });
 
   try {

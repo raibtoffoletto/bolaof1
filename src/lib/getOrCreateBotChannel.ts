@@ -7,15 +7,16 @@ import {
 } from 'discord.js';
 import {
   BOT_CHANNEL_NAME,
-  BOT_EVENT_PREFIX,
-  COMMANDS,
+  CLASSIFICACAO_EVENT_ID,
+  CORRIDAS_EVENT_ID,
   HELP_TEXT,
+  PILOTOS_EVENT_ID,
 } from '../lib/constants';
 
 const welcomeMessageActions = [
-  [`${BOT_EVENT_PREFIX}${COMMANDS.CORRIDAS}`, '🏁 Lista de Corridas'],
-  [`${BOT_EVENT_PREFIX}${COMMANDS.PILOTOS}`, '🏎️ Lista de Pilotos'],
-  [`${BOT_EVENT_PREFIX}${COMMANDS.CLASSIFICACAO}`, '📜 Classificação Geral'],
+  [CORRIDAS_EVENT_ID, '🏁 Lista de Corridas'],
+  [PILOTOS_EVENT_ID, '🏎️ Lista de Pilotos'],
+  [CLASSIFICACAO_EVENT_ID, '📜 Classificação Geral'],
 ];
 
 export default async function getOrCreateBotChannel(guild: Guild) {

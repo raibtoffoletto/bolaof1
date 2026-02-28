@@ -8,18 +8,42 @@ import {
 import GPs from './data/repos/grandsprix';
 import INSTANCES from './data/repos/instances';
 import NOTIFICATIONS from './data/repos/notifications';
-import { FLAGS, VOTE_EVENT_ID } from './lib/constants';
+import {
+  CLASSIFICACAO_EVENT_ID,
+  FLAGS,
+  RACE_RESULT_EVENT_ID,
+  START_VOTING_EVENT_ID,
+} from './lib/constants';
+import getPodiumLabel from './lib/getPodiumLabel';
 
 const interval = Number(process.env.MONITOR_INTERVAL ?? 1) * 60 * 60 * 1000; //  Every hour by default
 
 const isTooLate = (gpDate: number) => Date.now() > gpDate - 24 * 60 * 60 * 1000;
 
-function getMessageContent(gp: GrandPrix, lock = false) {
-  let content = `# ${FLAGS[gp.country]} ${gp.name}\n\n\n`;
-  content += `É final de semana de corrida 🎉\n\n`;
-  content += lock
+function getMessageContent(gp: GrandPrix, locked = false) {
+  let content = `# ${FLAGS[gp.country]} ${gp.name}\n\n`;
+  content += `🎉 É final de semana de corrida 🎉\n\n`;
+  content += `* 🎪\t**Circuito**: ${gp.circuit}\n`;
+  content += `* ⏰\t**Data**: <t:${gp.date / 1000}:F>\n\n`;
+  content += locked
     ? `Votação encerrada 🚫\n\nBoa sorte à todos 🏁`
-    : `⏱ Você tem 24h participar do bolão!\n`;
+    : `⏱ Você tem 24h para registrar seu palpite!\n`;
+
+  if (
+    !!locked &&
+    !!gp.polePosition &&
+    !!gp.firstPlace &&
+    !!gp.secondPlace &&
+    !!gp.thirdPlace
+  ) {
+    content += '\n## Resultados\n\n';
+    content += getPodiumLabel(
+      gp.polePosition,
+      gp.firstPlace,
+      gp.secondPlace,
+      gp.thirdPlace,
+    );
+  }
 
   return content;
 }
@@ -40,21 +64,39 @@ async function getValidEntities(client: Client, grandprixId: string, channelId: 
   return { gp, channel };
 }
 
+function getComponentsRow(grandprixId: string, locked = false) {
+  const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
+    new ButtonBuilder()
+      .setCustomId(`${START_VOTING_EVENT_ID}${grandprixId}`)
+      .setLabel('Meu Palpite')
+      .setStyle(ButtonStyle.Primary),
+  );
+
+  if (locked) {
+    row.addComponents(
+      new ButtonBuilder()
+        .setCustomId(`${RACE_RESULT_EVENT_ID}${grandprixId}`)
+        .setLabel('Pontuação da Corrida')
+        .setStyle(ButtonStyle.Primary),
+
+      new ButtonBuilder()
+        .setCustomId(CLASSIFICACAO_EVENT_ID)
+        .setLabel('Classificação Geral')
+        .setStyle(ButtonStyle.Primary),
+    );
+  }
+
+  return [row];
+}
+
 async function notify(client: Client, grandprixId: string, channelId: string) {
   const { gp, channel } = await getValidEntities(client, grandprixId, channelId);
 
   const tooLate = isTooLate(gp.date);
 
-  const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
-    new ButtonBuilder()
-      .setCustomId(`${VOTE_EVENT_ID}${grandprixId}`)
-      .setLabel('🏁 Deixe o seu palpite 🏁')
-      .setStyle(ButtonStyle.Primary),
-  );
-
   const message = await channel.send({
     content: getMessageContent(gp, tooLate),
-    components: tooLate ? [] : [row],
+    components: getComponentsRow(grandprixId, tooLate),
   });
 
   NOTIFICATIONS.create(grandprixId, channelId, message.id, tooLate);
@@ -77,7 +119,7 @@ async function lock(client: Client, notification: GPNotification) {
 
   await message.edit({
     content: getMessageContent(gp, true),
-    components: [],
+    components: getComponentsRow(notification.grandprixId, true),
   });
 
   NOTIFICATIONS.lock(notification.grandprixId, notification.channelId);

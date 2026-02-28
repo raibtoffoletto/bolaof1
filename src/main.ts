@@ -1,5 +1,4 @@
 import 'dotenv/config';
-
 import startBot from './bot';
 import seedData from './data/seed';
 import startMonitor from './monitor';
