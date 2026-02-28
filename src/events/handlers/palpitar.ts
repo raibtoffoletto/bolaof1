@@ -39,10 +39,10 @@ export default async function handlePalpitar(interaction: ModalSubmitInteraction
 
     const [userId, guildId] = verifyUser(interaction);
 
-    const pole = Number(interaction.fields.getTextInputValue('pole'));
-    const p1 = Number(interaction.fields.getTextInputValue('p1'));
-    const p2 = Number(interaction.fields.getTextInputValue('p2'));
-    const p3 = Number(interaction.fields.getTextInputValue('p3'));
+    const pole = Number(interaction.fields.getStringSelectValues('pole'));
+    const p1 = Number(interaction.fields.getStringSelectValues('p1'));
+    const p2 = Number(interaction.fields.getStringSelectValues('p2'));
+    const p3 = Number(interaction.fields.getStringSelectValues('p3'));
 
     if (
       !pole ||

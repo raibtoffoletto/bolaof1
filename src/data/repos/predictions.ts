@@ -7,15 +7,16 @@ function list(grandprixId: string, guildId: string) {
   );
 }
 
-function listByGp(grandprixId: string) {
+function listByGp(grandprixId: string, guildId = '') {
   return dbContext.query<GPPrediction>(
     `SELECT i.name as server, p.guildId, p.userId, u.username, p.polePosition, p.firstPlace, p.secondPlace, p.thirdPlace, p.points
       FROM predictions p
       LEFT JOIN users u ON u.id = p.userId
       LEFT JOIN instances i ON i.guildId = p.guildId
       WHERE p.grandprixId = ?
+      ${!!guildId ? 'AND p.guildId = ?' : ''}
       ORDER BY i.name, u.username;`,
-    [grandprixId],
+    !!guildId ? [grandprixId, guildId] : [grandprixId],
   );
 }
 

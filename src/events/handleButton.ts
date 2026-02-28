@@ -3,11 +3,13 @@ import {
   CLASSIFICACAO_EVENT_ID,
   CORRIDAS_EVENT_ID,
   PILOTOS_EVENT_ID,
+  RACE_RESULT_EVENT_ID,
   START_VOTING_EVENT_ID,
 } from '../lib/constants';
 import handleClassificacao from './handlers/classificacao';
 import handleCorridas from './handlers/corridas';
 import handlePilotos from './handlers/pilotos';
+import handleRaceResult from './handlers/raceResult';
 import handleVotacao from './handlers/votacao';
 
 export default function handleButton(interaction: ButtonInteraction) {
@@ -17,6 +19,9 @@ export default function handleButton(interaction: ButtonInteraction) {
 
     case interaction.customId === CLASSIFICACAO_EVENT_ID:
       return handleClassificacao(interaction);
+
+    case interaction.customId.startsWith(RACE_RESULT_EVENT_ID):
+      return handleRaceResult(interaction);
 
     case interaction.customId === CORRIDAS_EVENT_ID:
       return handleCorridas(interaction);
