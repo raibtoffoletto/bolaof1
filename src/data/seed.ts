@@ -42,14 +42,14 @@ const grandsprix: GrandPrix[] = [
     name: 'Test SPRINT',
     country: 'BRA',
     circuit: 'Discord',
-    date: 1772290800000,
+    date: 1772463600000,
   },
   {
     id: '0',
     name: 'Test Grand Prix',
     country: 'BRA',
     circuit: 'Discord',
-    date: 1772380800000,
+    date: 1772553600000,
   },
   {
     id: '1',
