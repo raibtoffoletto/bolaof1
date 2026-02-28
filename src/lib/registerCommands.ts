@@ -35,6 +35,6 @@ export default async function registerCommands(guildId: string) {
   } catch (error: any) {
     console.error(`[registerCommands]: ${error.message}`);
 
-    throw new Error(`Failed to register commands for guild ${guildId}`);
+    throw new Error(`Failed to register commands for guild ${guildId}`, { cause: error });
   }
 }
