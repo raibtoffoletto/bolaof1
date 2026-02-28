@@ -5,7 +5,7 @@ import getPage from './getPage';
 
 const grandprixHandler: RequestHandler = async (req, res) => {
   const { id } = req.params;
-  const gp = GPs.get(id);
+  const gp = GPs.get(`${id}`);
 
   if (!gp) {
     res.end(getPage({ content: 'Grand Prix not found' }));
@@ -60,7 +60,7 @@ const grandprixHandler: RequestHandler = async (req, res) => {
   content += `<hr />`;
 
   // Predictions
-  const predictions = PREDICTIONS.listByGp(id);
+  const predictions = PREDICTIONS.listByGp(`${id}`);
   const columns = Object.keys(predictions?.[0] || {}).filter(
     (k) => !['guildId', 'userId'].includes(k),
   );
