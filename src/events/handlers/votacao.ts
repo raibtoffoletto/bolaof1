@@ -3,6 +3,7 @@ import {
   ModalBuilder,
   StringSelectMenuBuilder,
   type ButtonInteraction,
+  type SelectMenuComponentOptionData,
 } from 'discord.js';
 import DRIVERS from '../../data/repos/drivers';
 import GPs from '../../data/repos/grandsprix';
@@ -32,27 +33,34 @@ async function openModal(
   driverOptions.sort((a, b) => a.label.localeCompare(b.label));
 
   const sufixLabel = (label: string, id?: number) =>
-    !!userPrediction ? `${label} (${drivers.find((d) => d.id === id)?.name})` : label;
+    !!userPrediction ? `${label} «${drivers.find((d) => d.id === id)?.name}»` : label;
 
   const _pole = sufixLabel(POLE, userPrediction?.polePosition);
   const _p1 = sufixLabel(P1, userPrediction?.firstPlace);
   const _p2 = sufixLabel(P2, userPrediction?.secondPlace);
   const _p3 = sufixLabel(P3, userPrediction?.thirdPlace);
 
-  const options = [
-    ['pole', _pole],
-    ['p1', _p1],
-    ['p2', _p2],
-    ['p3', _p3],
-  ].map(([id, label]) =>
+  const getOptions = (id?: number): SelectMenuComponentOptionData[] =>
+    !!id
+      ? driverOptions.map((d) => ({ ...d, default: d.value === `${id}` }))
+      : driverOptions.slice();
+
+  const options: [string, string, any][] = [
+    ['pole', _pole, getOptions(userPrediction?.polePosition)],
+    ['p1', _p1, getOptions(userPrediction?.firstPlace)],
+    ['p2', _p2, getOptions(userPrediction?.secondPlace)],
+    ['p3', _p3, getOptions(userPrediction?.thirdPlace)],
+  ];
+
+  const components = options.map(([id, label, _options]) =>
     new LabelBuilder()
       .setLabel(label)
       .setStringSelectMenuComponent(
-        new StringSelectMenuBuilder().setCustomId(id).addOptions(...driverOptions),
+        new StringSelectMenuBuilder().setCustomId(id).addOptions(..._options),
       ),
   );
 
-  modal.addComponents(...options);
+  modal.addComponents(...components);
 
   await interaction.showModal(modal);
 }
@@ -101,6 +109,7 @@ export default async function handleVotacao(interaction: ButtonInteraction) {
 
     await openModal(interaction, gp, userPrediction);
   } catch (error: any) {
-    return console.error(`[handleVotacao]: ${error.message}`);
+    console.error(`[handleVotacao]: ${error.message}`);
+    console.error(error);
   }
 }
