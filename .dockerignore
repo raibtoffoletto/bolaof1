@@ -40,3 +40,9 @@ Thumbs.db
 .prettierrc.json
 COPYING
 README.md
+
+# SQLite database files
+*.sqlite
+*.sqlite3
+*.db
+*.tar*
