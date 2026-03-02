@@ -73,7 +73,7 @@ export async function getValidEntities(
   return { gp, channel };
 }
 
-export function getComponentsRow(grandprixId: string, locked = false) {
+export function getComponentsRow(grandprixId: string, locked = false, resultsIn = false) {
   const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
     new ButtonBuilder()
       .setCustomId(`${START_VOTING_EVENT_ID}${grandprixId}`)
@@ -81,7 +81,7 @@ export function getComponentsRow(grandprixId: string, locked = false) {
       .setStyle(ButtonStyle.Primary),
   );
 
-  if (locked) {
+  if (locked && resultsIn) {
     row.addComponents(
       new ButtonBuilder()
         .setCustomId(`${RACE_RESULT_EVENT_ID}${grandprixId}`)
@@ -128,7 +128,7 @@ export async function lock(client: Client, notification: GPNotification) {
 
   await message.edit({
     content: getMessageContent(gp, true),
-    components: getComponentsRow(notification.grandprixId, !!gp.polePosition),
+    components: getComponentsRow(notification.grandprixId, true, !!gp.polePosition),
   });
 
   channel.send({
