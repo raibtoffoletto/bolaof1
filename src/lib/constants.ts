@@ -1,9 +1,5 @@
 export const BOT_CHANNEL_NAME = 'bolao-f1-2026';
 
-export const BOT_EVENT_PREFIX = 'bolaof1:';
-export const VOTE_EVENT_ID = `${BOT_EVENT_PREFIX}:vote:`;
-export const SUBMIT_EVENT_ID = `${BOT_EVENT_PREFIX}:submit:`;
-
 export const POLE = '⏱ Pole Position';
 export const P1 = '🥇 Primeiro colocado';
 export const P2 = '🥈 Segundo colocado';
@@ -44,6 +40,14 @@ export const COMMAND_OPTIONS: Record<string, string[][]> = {
   ],
 };
 
+export const BOT_EVENT_PREFIX = 'bolaof1:';
+export const START_VOTING_EVENT_ID = `${BOT_EVENT_PREFIX}:vote:`;
+export const SUBMIT_VOTE_EVENT_ID = `${BOT_EVENT_PREFIX}:submit:`;
+export const RACE_RESULT_EVENT_ID = `${BOT_EVENT_PREFIX}:result:`;
+export const CORRIDAS_EVENT_ID = `${BOT_EVENT_PREFIX}:${COMMANDS.CORRIDAS}`;
+export const PILOTOS_EVENT_ID = `${BOT_EVENT_PREFIX}:${COMMANDS.PILOTOS}`;
+export const CLASSIFICACAO_EVENT_ID = `${BOT_EVENT_PREFIX}:${COMMANDS.CLASSIFICACAO}`;
+
 export const FLAGS: Record<string, string> = {
   AUS: '🇦🇺',
   CHN: '🇨🇳',
@@ -67,3 +71,38 @@ export const FLAGS: Record<string, string> = {
   QAT: '🇶🇦',
   ARE: '🇦🇪',
 };
+
+export const HELP_TEXT = `# 🏁 Bem-vindos ao Bolão da F1 2026 
+
+Todo fim de semana de corrida, uma mensagem aparecerá neste canal (\`#${BOT_CHANNEL_NAME}\`) com os detalhes da corrida (e sprint se houver) e com um formulário para você deixar seus palpites sobre quem fará a pole e quem estará no podium. Para participar, basta votar utilizando o botão presente na mensagem, e ao fim de cada corrida para cada palpite você ganhará pontos para a classificação geral.
+
+> <‼> Atenção: a votação só fica aberta entre 48h e 24h antes da corrida, após esse período já não é mais possivel palpitar. Portanto, ative notificações para o canal em questão e fique atento às mensagens para não perder nenhuma novidade 😉!.
+
+## 📜 Pontuação 
+Após o resultado de cada corrida, pontos serão atribuidos para a sua classificação geral aos palpites segundo à seguinte tabela:
+
+\`\`\`
+       │────────│────────────│
+       │ Sprint │ Grand Prix │
+│──────│────────│────────────│
+│ Pole │    ${POINTS.SPOLE}   │      ${POINTS.POLE}     │
+│──────│────────│────────────│
+│  P1  │   ${POINTS.SP1}   │     ${POINTS.P1}     │
+│──────│────────│────────────│
+│  P2  │    ${POINTS.SP2}   │     ${POINTS.P2}     │
+│──────│────────│────────────│
+│  P3  │    ${POINTS.SP3}   │     ${POINTS.P3}     │
+│──────│────────│────────────│
+\`\`\`
+
+## ⌨ Comandos
+
+  * \`/ajuda\` Mostra esse documento.
+  * \`/classificação\` Mostra a lista de participantes do bolão com os pontos ganhos até o momento.
+  * \`/corrida\` Mostra os detalhes de uma corrida da temporada, incluindo resultados e o seu palpite caso estejam disponíveis. A hora mostrada é sempre no seu fuso horário.
+  * \`/corridas\` Mostra a lista de corridas com seus códigos.
+  * \`/pilotos\` Mostra a lista de pilotos com o número de seus carros e times.
+
+## 💣 Erros
+
+Em caso de algum erro com o Bot, uma frase icônica aparecerá como resposta!`;

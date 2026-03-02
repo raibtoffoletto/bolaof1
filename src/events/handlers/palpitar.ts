@@ -3,7 +3,7 @@ import DRIVERS from '../../data/repos/drivers';
 import GPs from '../../data/repos/grandsprix';
 import PREDICTIONS from '../../data/repos/predictions';
 import USERS from '../../data/repos/users';
-import { SUBMIT_EVENT_ID } from '../../lib/constants';
+import { SUBMIT_VOTE_EVENT_ID } from '../../lib/constants';
 import getQuote from '../../lib/getQuote';
 
 function verifyUser(interaction: ModalSubmitInteraction) {
@@ -30,7 +30,7 @@ export default async function handlePalpitar(interaction: ModalSubmitInteraction
   await interaction.deferReply({ ephemeral: true });
 
   try {
-    const grandprixId = interaction.customId.replace(SUBMIT_EVENT_ID, '');
+    const grandprixId = interaction.customId.replace(SUBMIT_VOTE_EVENT_ID, '');
     const gp = GPs.get(grandprixId);
 
     if (!gp) {
@@ -39,10 +39,10 @@ export default async function handlePalpitar(interaction: ModalSubmitInteraction
 
     const [userId, guildId] = verifyUser(interaction);
 
-    const pole = Number(interaction.fields.getTextInputValue('pole'));
-    const p1 = Number(interaction.fields.getTextInputValue('p1'));
-    const p2 = Number(interaction.fields.getTextInputValue('p2'));
-    const p3 = Number(interaction.fields.getTextInputValue('p3'));
+    const pole = Number(interaction.fields.getStringSelectValues('pole'));
+    const p1 = Number(interaction.fields.getStringSelectValues('p1'));
+    const p2 = Number(interaction.fields.getStringSelectValues('p2'));
+    const p3 = Number(interaction.fields.getStringSelectValues('p3'));
 
     if (
       !pole ||

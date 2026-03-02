@@ -5,9 +5,8 @@ import GPs from '../data/repos/grandsprix';
 import INSTANCES from '../data/repos/instances';
 import NOTIFICATIONS from '../data/repos/notifications';
 import PREDICTIONS from '../data/repos/predictions';
-import { FLAGS, POINTS } from '../lib/constants';
-import getPodiumLabel from '../lib/getPodiumLabel';
-import notifyRanks from '../lib/notifyRanks';
+import { POINTS } from '../lib/constants';
+import { lock } from '../lib/manageGpMessages';
 
 function updatePredictions(gp: GrandPrix) {
   const predictions = PREDICTIONS.listByGp(gp.id);
@@ -59,26 +58,7 @@ async function notifyChannels(client: Client, gp: GrandPrix) {
     }
 
     if (!notification.results && channel.type === ChannelType.GuildText) {
-      let message1 = `# ${FLAGS[gp.country]} ${gp.name}: Fim de Corrida 🎉\n`;
-      message1 += `### Resultados desta etapa:\n`;
-      message1 += getPodiumLabel(
-        gp.polePosition!,
-        gp.firstPlace!,
-        gp.secondPlace!,
-        gp.thirdPlace!,
-      );
-
-      await channel.send(message1);
-
-      await notifyRanks(
-        guildId,
-        async (content) => {
-          await channel.send(content);
-        },
-        async (content) => {
-          await channel.send(content);
-        },
-      );
+      await lock(client, notification);
 
       NOTIFICATIONS.setResults(gp.id, channelId);
     }

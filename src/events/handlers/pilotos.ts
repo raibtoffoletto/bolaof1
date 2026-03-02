@@ -1,9 +1,11 @@
-import type { ChatInputCommandInteraction } from 'discord.js';
+import type { ButtonInteraction, ChatInputCommandInteraction } from 'discord.js';
 import DRIVERS from '../../data/repos/drivers';
 import getQuote from '../../lib/getQuote';
 import spacer from '../../lib/spacer';
 
-export default async function handlePilotos(interaction: ChatInputCommandInteraction) {
+export default async function handlePilotos(
+  interaction: ChatInputCommandInteraction | ButtonInteraction,
+) {
   await interaction.deferReply({ ephemeral: true });
 
   try {
