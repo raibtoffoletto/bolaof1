@@ -34,9 +34,13 @@ export default async function notifyRanks(
 
     content += header;
 
-    const position = i * 15 + 1;
+    let row = 1;
     for (const prediction of _predictions) {
-      content += ` ${position.toString().padEnd(3, ' ')} │ ${prediction.username} │ ${prediction.points}\n`;
+      const position = i * 15 + row;
+
+      content += ` ${position.toString().padEnd(3, ' ')} │ ${prediction.username.padEnd(nameLength, ' ')} │ ${prediction.points}\n`;
+
+      row++;
     }
 
     content += `\`\`\``;

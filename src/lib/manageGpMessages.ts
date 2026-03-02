@@ -77,7 +77,7 @@ export function getComponentsRow(grandprixId: string, locked = false) {
   const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
     new ButtonBuilder()
       .setCustomId(`${START_VOTING_EVENT_ID}${grandprixId}`)
-      .setLabel('Meu Palpite')
+      .setLabel(locked ? 'Ver Palpite' : 'Deixar Palpite')
       .setStyle(ButtonStyle.Primary),
   );
 
@@ -129,6 +129,12 @@ export async function lock(client: Client, notification: GPNotification) {
   await message.edit({
     content: getMessageContent(gp, true),
     components: getComponentsRow(notification.grandprixId, !!gp.polePosition),
+  });
+
+  channel.send({
+    content: !!gp.polePosition
+      ? `Fim de corrida. Veja os resultados: ${message.url}`
+      : `Apostas encerradas para a corrida: ${message.url}`,
   });
 
   NOTIFICATIONS.lock(notification.grandprixId, notification.channelId);
