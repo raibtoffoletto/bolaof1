@@ -39,28 +39,35 @@ function updatePredictions(gp: GrandPrix) {
 async function notifyChannels(client: Client, gp: GrandPrix) {
   const instances = INSTANCES.list();
   for (const { channelId, guildId } of instances) {
-    const channel = await client.channels.fetch(channelId);
-    if (!channel) {
+    try {
+      const channel = await client.channels.fetch(channelId);
+      if (!channel) {
+        console.error(
+          `[gpUpdateHandler] Channel <${channelId}> of guild <${guildId}> not found.`,
+        );
+
+        continue;
+      }
+
+      const notification = NOTIFICATIONS.get(gp.id, channelId);
+      if (!notification) {
+        console.error(
+          `[gpUpdateHandler] Notification for channel <${channelId}> and gp <${gp.id}> not found.`,
+        );
+
+        continue;
+      }
+
+      if (!notification.results && channel.type === ChannelType.GuildText) {
+        await lock(client, notification);
+
+        NOTIFICATIONS.setResults(gp.id, channelId);
+      }
+    } catch (error) {
       console.error(
-        `[gpUpdateHandler] Channel <${channelId}> of guild <${guildId}> not found.`,
+        `[gpUpdateHandler] Error notifying channel <${channelId}> of guild <${guildId}>:`,
+        error,
       );
-
-      continue;
-    }
-
-    const notification = NOTIFICATIONS.get(gp.id, channelId);
-    if (!notification) {
-      console.error(
-        `[gpUpdateHandler] Notification for channel <${channelId}> and gp <${gp.id}> not found.`,
-      );
-
-      continue;
-    }
-
-    if (!notification.results && channel.type === ChannelType.GuildText) {
-      await lock(client, notification);
-
-      NOTIFICATIONS.setResults(gp.id, channelId);
     }
   }
 }

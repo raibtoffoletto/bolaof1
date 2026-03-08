@@ -11,11 +11,11 @@ function listByGp(grandprixId: string, guildId = '') {
   return dbContext.query<GPPrediction>(
     `SELECT i.name as server, p.guildId, p.userId, u.username, p.polePosition, p.firstPlace, p.secondPlace, p.thirdPlace, p.points
       FROM predictions p
-      LEFT JOIN users u ON u.id = p.userId
+      LEFT JOIN users u ON u.id = p.userId AND u.guildId = p.guildId
       LEFT JOIN instances i ON i.guildId = p.guildId
       WHERE p.grandprixId = ?
       ${!!guildId ? 'AND p.guildId = ?' : ''}
-      ORDER BY i.name, u.username;`,
+      ORDER BY points DESC, i.name, u.username;`,
     !!guildId ? [grandprixId, guildId] : [grandprixId],
   );
 }
@@ -24,10 +24,10 @@ function listByGuild(guildId: string) {
   return dbContext.query<UserPoints>(
     `SELECT u.username, sum(p.points) as points
       FROM predictions p
-      LEFT JOIN users u ON u.id = p.userId
+      LEFT JOIN users u ON u.id = p.userId AND u.guildId = p.guildId
       WHERE p.guildId = ?
       GROUP BY p.userId
-      ORDER BY points DESC`,
+      ORDER BY points DESC;`,
     [guildId],
   );
 }

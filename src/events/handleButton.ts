@@ -13,20 +13,24 @@ import handleRaceResult from './handlers/raceResult';
 import handleVotacao from './handlers/votacao';
 
 export default function handleButton(interaction: ButtonInteraction) {
-  switch (true) {
-    case interaction.customId.startsWith(START_VOTING_EVENT_ID):
-      return handleVotacao(interaction);
+  try {
+    switch (true) {
+      case interaction.customId.startsWith(START_VOTING_EVENT_ID):
+        return handleVotacao(interaction);
 
-    case interaction.customId === CLASSIFICACAO_EVENT_ID:
-      return handleClassificacao(interaction);
+      case interaction.customId === CLASSIFICACAO_EVENT_ID:
+        return handleClassificacao(interaction);
 
-    case interaction.customId.startsWith(RACE_RESULT_EVENT_ID):
-      return handleRaceResult(interaction);
+      case interaction.customId.startsWith(RACE_RESULT_EVENT_ID):
+        return handleRaceResult(interaction);
 
-    case interaction.customId === CORRIDAS_EVENT_ID:
-      return handleCorridas(interaction);
+      case interaction.customId === CORRIDAS_EVENT_ID:
+        return handleCorridas(interaction);
 
-    case interaction.customId === PILOTOS_EVENT_ID:
-      return handlePilotos(interaction);
+      case interaction.customId === PILOTOS_EVENT_ID:
+        return handlePilotos(interaction);
+    }
+  } catch (error) {
+    console.error('Error handling button interaction:', error);
   }
 }
