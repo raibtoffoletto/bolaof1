@@ -21,9 +21,13 @@ function update(instance: Instance) {
 }
 
 function remove(id: string) {
-  const deleteSql = 'DELETE FROM instances WHERE guildId = ?;';
+  const deleteUsersSql = 'DELETE FROM users WHERE guildId = ?;';
+  const deletePredictionsSql = 'DELETE FROM predictions WHERE guildId = ?;';
+  const deleteInstanceSql = 'DELETE FROM instances WHERE guildId = ?;';
 
-  dbContext.exec(deleteSql, [id]);
+  dbContext.exec(deleteUsersSql, [id]);
+  dbContext.exec(deletePredictionsSql, [id]);
+  dbContext.exec(deleteInstanceSql, [id]);
 }
 
 export default {
