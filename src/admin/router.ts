@@ -1,5 +1,6 @@
 import type { Client } from 'discord.js';
 import type { Polka } from 'polka';
+import { adminPageHandler, adminQueryHandler } from './admin';
 import driversHandler from './drivers';
 import gpsHandler from './gps';
 import gpUpdateHandler from './gpUpdate';
@@ -9,6 +10,8 @@ import scriptHandler from './script';
 
 export default function setupRouter(app: Polka, client: Client) {
   app.get('/', homeHandler);
+  app.get('/admin', adminPageHandler);
+  app.post('/admin', adminQueryHandler);
   app.get('/drivers', driversHandler);
   app.get('/gps', gpsHandler);
   app.post('/gps', gpUpdateHandler(client));
