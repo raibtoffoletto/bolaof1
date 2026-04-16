@@ -2,6 +2,36 @@ import type { RequestHandler } from 'express';
 
 const scriptHandler: RequestHandler = async (_, res) => {
   const script = `
+    async function handleQuerySubmit(e) {
+      try {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const form = document.getElementById("db-query-form");
+        const formData = new FormData(form);
+        const payload = Object.fromEntries(formData.entries());
+
+        const req = await fetch("/admin", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        });
+
+        if (!req.ok) {
+          throw new Error(\`\${req.status}: \${req.statusText}\`);
+        }
+
+        const result = await req.json();
+
+        const target = document.getElementById("result-content");
+        target.textContent = JSON.stringify(result, null, 2);
+      } catch (error) {
+        console.error(\`Error:\${error.message}\`);
+      }
+    }    
+
     async function handleFormSubmit(e) {
       e.preventDefault();
       e.stopPropagation();

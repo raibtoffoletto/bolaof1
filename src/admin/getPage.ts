@@ -25,6 +25,7 @@ const template = `
       <a href="/"><button>Classificações</button></a>
       <a href="/gps"><button>Grands Prix</button></a>
       <a href="/drivers"><button>Pilotos</button></a>
+      <a href="/admin"><button>Admin</button></a>
     </nav>
 
     <hr />
