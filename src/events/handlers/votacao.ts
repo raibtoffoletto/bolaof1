@@ -81,7 +81,7 @@ export default async function handleVotacao(interaction: ButtonInteraction) {
       interaction.guildId ?? '',
     );
 
-    if (isTooLate(gp.date)) {
+    if (isTooLate(gp.id, gp.date)) {
       if (!!userPrediction) {
         let content = `🏁 Meu palpite para o ${gp.name} 🏁:\n\n`;
         content += getPodiumLabel(

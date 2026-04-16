@@ -28,7 +28,7 @@ function gpMonitor(client: Client) {
             continue;
           }
 
-          if (!notification.locked && isTooLate(gp.date)) {
+          if (!notification.locked && isTooLate(gp.id, gp.date)) {
             await lock(client, notification);
           }
         }

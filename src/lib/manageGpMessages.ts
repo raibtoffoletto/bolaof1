@@ -15,7 +15,13 @@ import {
 } from './constants';
 import getPodiumLabel from './getPodiumLabel';
 
-export const isTooLate = (gpDate: number) => Date.now() > gpDate - 24 * 60 * 60 * 1000;
+export const isTooLate = (gpId: string, gpDate: number) => {
+  const isSprint = gpId.includes('S');
+
+  const hours = isSprint ? 19.5 : 24;
+
+  return Date.now() > gpDate - hours * 60 * 60 * 1000;
+};
 
 export function getMessageContent(gp: GrandPrix, locked = false) {
   let content = `# ${FLAGS[gp.country]} ${gp.name}\n\n`;
@@ -101,7 +107,7 @@ export function getComponentsRow(grandprixId: string, locked = false, resultsIn 
 export async function notify(client: Client, grandprixId: string, channelId: string) {
   const { gp, channel } = await getValidEntities(client, grandprixId, channelId);
 
-  const tooLate = isTooLate(gp.date);
+  const tooLate = isTooLate(gp.id, gp.date);
 
   const message = await channel.send({
     content: getMessageContent(gp, tooLate),
