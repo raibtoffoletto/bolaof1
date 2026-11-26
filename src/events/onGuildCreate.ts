@@ -1,5 +1,7 @@
 import { type Guild } from 'discord.js';
+import INSTANCES from '../data/repos/instances';
 import registerCommands from '../lib/registerCommands';
+import syncVotingWindows from '../lib/syncVotingWindows';
 import verifyGuildData from '../lib/verifyGuildData';
 
 export default async function onGuildCreate(guild: Guild) {
@@ -12,6 +14,11 @@ export default async function onGuildCreate(guild: Guild) {
 
     await verifyGuildData(guild);
     await registerCommands(guild.id);
+
+    const instance = INSTANCES.get(guild.id);
+    if (!!instance) {
+      await syncVotingWindows(guild.client, [instance]);
+    }
   } catch (error: any) {
     console.error(`[onGuildCreate]: ${error.message}`);
   }

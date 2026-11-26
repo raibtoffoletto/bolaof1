@@ -59,8 +59,13 @@ const notifications = `
   );
 `;
 
+const notificationsReminded = `
+  ALTER TABLE notifications ADD COLUMN reminded INTEGER NOT NULL DEFAULT 0;
+`;
+
 const migrations: string[][] = [
   [drivers, grandsprix, instances, users, predictions, notifications],
+  [notificationsReminded],
 ];
 
 export default migrations;

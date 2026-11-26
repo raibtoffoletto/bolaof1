@@ -62,6 +62,7 @@ type GPNotification = {
   messageId: string;
   locked: boolean;
   results: boolean;
+  reminded: boolean;
 };
 
 type Command = 'AJUDA' | 'CLASSIFICACAO' | 'CORRIDA' | 'CORRIDAS' | 'PILOTOS';

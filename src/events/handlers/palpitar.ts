@@ -5,6 +5,7 @@ import PREDICTIONS from '../../data/repos/predictions';
 import USERS from '../../data/repos/users';
 import { SUBMIT_VOTE_EVENT_ID } from '../../lib/constants';
 import getQuote from '../../lib/getQuote';
+import { isTooLate } from '../../lib/manageGpMessages';
 
 function verifyUser(interaction: ModalSubmitInteraction) {
   const userId = interaction.user.id;
@@ -35,6 +36,12 @@ export default async function handlePalpitar(interaction: ModalSubmitInteraction
 
     if (!gp) {
       throw new Error(`Grand Prix <${grandprixId}> not found.`);
+    }
+
+    if (isTooLate(gp.id, gp.date)) {
+      return await interaction.editReply({
+        content: 'Desculpe, o tempo para votar nesse GP acabou! ⏰',
+      });
     }
 
     const [userId, guildId] = verifyUser(interaction);

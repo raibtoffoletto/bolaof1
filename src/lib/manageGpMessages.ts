@@ -4,6 +4,8 @@ import {
   ButtonStyle,
   ChannelType,
   type Client,
+  DiscordAPIError,
+  RESTJSONErrorCodes,
 } from 'discord.js';
 import GPs from '../data/repos/grandsprix';
 import NOTIFICATIONS from '../data/repos/notifications';
@@ -12,16 +14,33 @@ import {
   FLAGS,
   RACE_RESULT_EVENT_ID,
   START_VOTING_EVENT_ID,
+  VOTING_CLOSES_HOURS,
+  VOTING_OPENS_HOURS,
 } from './constants';
 import getPodiumLabel from './getPodiumLabel';
 
-export const isTooLate = (gpId: string, gpDate: number) => {
-  const isSprint = gpId.includes('S');
+const HOUR = 60 * 60 * 1000;
 
-  const hours = isSprint ? 19.5 : 24;
+export const isSprint = (gpId: string) => gpId.includes('S');
 
-  return Date.now() > gpDate - hours * 60 * 60 * 1000;
-};
+export function getVotingWindow(gpId: string, gpDate: number) {
+  const closesHours = isSprint(gpId)
+    ? VOTING_CLOSES_HOURS.SPRINT
+    : VOTING_CLOSES_HOURS.GP;
+
+  return {
+    opensAt: gpDate - VOTING_OPENS_HOURS * HOUR,
+    closesAt: gpDate - closesHours * HOUR,
+  };
+}
+
+export const isTooLate = (gpId: string, gpDate: number) =>
+  Date.now() > getVotingWindow(gpId, gpDate).closesAt;
+
+const toDiscordTime = (ms: number) => Math.floor(ms / 1000);
+
+const getMessageUrl = (guildId: string, channelId: string, messageId: string) =>
+  `https://discord.com/channels/${guildId}/${channelId}/${messageId}`;
 
 export function getMessageContent(gp: GrandPrix, locked = false) {
   let content = `# ${FLAGS[gp.country]} ${gp.name}\n\n`;
@@ -37,7 +56,7 @@ export function getMessageContent(gp: GrandPrix, locked = false) {
     ? !!gp.polePosition
       ? '## Fim de Corrida 🎉\n'
       : `### Votação encerrada 🚫\n\nBoa sorte à todos 🏁`
-    : `### ⏱ Você tem 24h para registrar seu palpite!\n`;
+    : `### ⏱ Votação encerra <t:${toDiscordTime(getVotingWindow(gp.id, gp.date).closesAt)}:R>!\n`;
 
   if (
     !!locked &&
@@ -107,15 +126,51 @@ export function getComponentsRow(grandprixId: string, locked = false, resultsIn 
 export async function notify(client: Client, grandprixId: string, channelId: string) {
   const { gp, channel } = await getValidEntities(client, grandprixId, channelId);
 
-  const tooLate = isTooLate(gp.id, gp.date);
-
   const message = await channel.send({
-    content: getMessageContent(gp, tooLate),
-    components: getComponentsRow(grandprixId, !!gp.polePosition),
+    content: getMessageContent(gp),
+    components: getComponentsRow(grandprixId),
   });
 
-  NOTIFICATIONS.create(grandprixId, channelId, message.id, tooLate);
+  NOTIFICATIONS.create(grandprixId, channelId, message.id);
   console.log(`[monitor] Channel <${channelId}> notifyed for gp <${grandprixId}>.`);
+}
+
+export async function remind(client: Client, notification: GPNotification) {
+  const { gp, channel } = await getValidEntities(
+    client,
+    notification.grandprixId,
+    notification.channelId,
+  );
+
+  const { closesAt } = getVotingWindow(gp.id, gp.date);
+  const url = getMessageUrl(channel.guildId, channel.id, notification.messageId);
+
+  await channel.send({
+    content: `⏰ Últimas horas para palpitar no ${gp.name}! Votação encerra <t:${toDiscordTime(closesAt)}:R>: ${url}`,
+  });
+
+  NOTIFICATIONS.setReminded(notification.grandprixId, notification.channelId);
+  console.log(
+    `[monitor] Channel <${notification.channelId}> reminded for gp <${notification.grandprixId}>.`,
+  );
+}
+
+async function fetchMessage(
+  channel: Awaited<ReturnType<typeof getValidEntities>>['channel'],
+  messageId: string,
+) {
+  try {
+    return await channel.messages.fetch(messageId);
+  } catch (error) {
+    if (
+      error instanceof DiscordAPIError &&
+      error.code === RESTJSONErrorCodes.UnknownMessage
+    ) {
+      return null;
+    }
+
+    throw error;
+  }
 }
 
 export async function lock(client: Client, notification: GPNotification) {
@@ -125,11 +180,15 @@ export async function lock(client: Client, notification: GPNotification) {
     notification.channelId,
   );
 
-  const message = await channel.messages.fetch(notification.messageId);
+  const message = await fetchMessage(channel, notification.messageId);
   if (!message) {
-    throw new Error(
-      `[monitor] Message <${notification.messageId}> not found in channel <${channel.id}>.`,
+    // The card was deleted: mark it locked so the monitor stops retrying every tick.
+    NOTIFICATIONS.lock(notification.grandprixId, notification.channelId);
+    console.error(
+      `[monitor] Message <${notification.messageId}> not found in channel <${channel.id}>, marked as locked.`,
     );
+
+    return;
   }
 
   await message.edit({
