@@ -33,9 +33,17 @@ function setResults(grandprixId: string, channelId: string) {
   );
 }
 
+function setReminded(grandprixId: string, channelId: string) {
+  return dbContext.get<GPNotification>(
+    'UPDATE notifications SET reminded = 1 WHERE grandprixId = ? AND channelId = ?;',
+    [grandprixId, channelId],
+  );
+}
+
 export default {
   get,
   create,
   lock,
   setResults,
+  setReminded,
 };

@@ -1,48 +1,35 @@
 import { type Client } from 'discord.js';
-import GPs from './data/repos/grandsprix';
-import INSTANCES from './data/repos/instances';
-import NOTIFICATIONS from './data/repos/notifications';
-import { isTooLate, lock, notify } from './lib/manageGpMessages';
+import syncVotingWindows from './lib/syncVotingWindows';
 
-const interval = Number(process.env.MONITOR_INTERVAL ?? 1) * 60 * 60 * 1000; //  Every hour by default
-
-function gpMonitor(client: Client) {
-  return async () => {
-    try {
-      const gps = GPs.find(Date.now());
-      if (!gps.length) {
-        return;
-      }
-
-      const instances = INSTANCES.list();
-      if (!instances.length) {
-        return;
-      }
-
-      for (const gp of gps) {
-        for (const instance of instances) {
-          const notification = NOTIFICATIONS.get(gp.id, instance.channelId);
-          if (!notification) {
-            await notify(client, gp.id, instance.channelId);
-
-            continue;
-          }
-
-          if (!notification.locked && isTooLate(gp.id, gp.date)) {
-            await lock(client, notification);
-          }
-        }
-      }
-    } catch (err: any) {
-      console.error('[monitor] ' + err.message);
-    }
-  };
-}
+const interval = Number(process.env.MONITOR_INTERVAL || 5) * 60 * 1000; // Every 5 minutes by default
 
 export default function startMonitor(client: Client) {
-  const intervalId = setInterval(gpMonitor(client), interval);
+  let intervalId: NodeJS.Timeout | undefined;
+  let running = false;
 
-  console.log('[monitor] cron tasks monitor started');
+  const tick = async () => {
+    if (running) {
+      return;
+    }
+
+    running = true;
+
+    try {
+      await syncVotingWindows(client);
+    } catch (err: any) {
+      console.error('[monitor] ' + err.message);
+    } finally {
+      running = false;
+    }
+  };
+
+  // Discord calls only work once the client is ready, so the first run waits for it.
+  client.once('clientReady', () => {
+    intervalId = setInterval(tick, interval);
+    tick();
+
+    console.log(`[monitor] cron tasks monitor started (every ${interval / 60000} min)`);
+  });
 
   return {
     stop: () => {

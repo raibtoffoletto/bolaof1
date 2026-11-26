@@ -6,11 +6,11 @@ import INSTANCES from '../data/repos/instances';
 import NOTIFICATIONS from '../data/repos/notifications';
 import PREDICTIONS from '../data/repos/predictions';
 import { POINTS } from '../lib/constants';
-import { lock } from '../lib/manageGpMessages';
+import { isSprint as isSprintGp, lock } from '../lib/manageGpMessages';
 
 function updatePredictions(gp: GrandPrix) {
   const predictions = PREDICTIONS.listByGp(gp.id);
-  const isSprint = gp.id.includes('S');
+  const isSprint = isSprintGp(gp.id);
 
   for (const prediction of predictions) {
     let points = 0;

@@ -1,3 +1,4 @@
+import { VOTING_OPENS_HOURS } from '../../lib/constants';
 import dbContext from '../db';
 
 function get(id: string) {
@@ -10,8 +11,8 @@ function list() {
 
 function find(timestamp: number) {
   return dbContext.query<GrandPrix>(
-    'select * from grandsprix where date > ? AND ? > date - (48 * 60 * 60 * 1000);',
-    [timestamp, timestamp],
+    'SELECT * FROM grandsprix WHERE date > ? AND ? > date - ?;',
+    [timestamp, timestamp, VOTING_OPENS_HOURS * 60 * 60 * 1000],
   );
 }
 

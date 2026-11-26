@@ -16,6 +16,21 @@ export const POINTS = {
   P3: 15,
 };
 
+export const VOTING_OPENS_HOURS = 48;
+
+export const VOTING_CLOSES_HOURS = {
+  GP: 24,
+  SPRINT: 19.5,
+};
+
+export const REMINDER_HOURS = 3;
+
+const formatHours = (hours: number) => {
+  const minutes = Math.round((hours % 1) * 60);
+
+  return `${Math.floor(hours)}h${minutes ? String(minutes).padStart(2, '0') : ''}`;
+};
+
 export const COMMANDS: Record<Command, string> = {
   AJUDA: 'ajuda',
   CLASSIFICACAO: 'classificação',
@@ -76,7 +91,7 @@ export const HELP_TEXT = `# 🏁 Bem-vindos ao Bolão da F1 2026
 
 Todo fim de semana de corrida, uma mensagem aparecerá neste canal (\`#${BOT_CHANNEL_NAME}\`) com os detalhes da corrida (e sprint se houver) e com um formulário para você deixar seus palpites sobre quem fará a pole e quem estará no podium. Para participar, basta votar utilizando o botão presente na mensagem, e ao fim de cada corrida para cada palpite você ganhará pontos para a classificação geral.
 
-> <‼> Atenção: a votação só fica aberta entre 48h e 24h antes da corrida, após esse período já não é mais possivel palpitar. Portanto, ative notificações para o canal em questão e fique atento às mensagens para não perder nenhuma novidade 😉!.
+> <‼> Atenção: a votação só fica aberta entre ${formatHours(VOTING_OPENS_HOURS)} e ${formatHours(VOTING_CLOSES_HOURS.GP)} antes da corrida (${formatHours(VOTING_CLOSES_HOURS.SPRINT)} antes no caso das sprints), após esse período já não é mais possivel palpitar. Portanto, ative notificações para o canal em questão e fique atento às mensagens para não perder nenhuma novidade 😉!.
 
 ## 📜 Pontuação 
 Após o resultado de cada corrida, pontos serão atribuidos para a sua classificação geral aos palpites segundo à seguinte tabela:
